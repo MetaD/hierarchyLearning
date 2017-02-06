@@ -72,26 +72,29 @@ class Presenter:
         img_stims = [visual.ImageStim(self.window, image=img_file) for img_file in img_files]
         return img_stims
 
-    def draw_stimuli_for_duration(self, stimuli, duration=None):
+    def draw_stimuli_for_duration(self, stimuli, duration):
         """
-        :param stimuli: a list of psychopy.visual stimuli to draw
+        :param stimuli: either a psychopy.visual stimulus or a list of them to draw
         :param duration: a float time duration in seconds
         """
-        for stim in stimuli:
-            if stim is not None:  # skipping "None"
-                stim.draw()
+        if isinstance(stimuli, visual.BaseVisualStim):
+            stimuli.draw()
+        else:
+            for stim in stimuli:
+                if stim is not None:  # skipping "None"
+                    stim.draw()
         self.window.flip()
         if duration is not None:
             core.wait(duration)
 
     def draw_stimuli_for_response(self, stimuli, response_keys, escape=True):
         """
-        :param stimuli: a list of psychopy.visual stimuli to draw
+        :param stimuli: either a psychopy.visual stimulus or a list of them to draw
         :param response_keys: a list containing strings of response keys
         :param escape: a boolean that allows pressing esc to exit the program if True
         :return: a tuple (key_pressed, reaction_time_in_seconds)
         """
-        self.draw_stimuli_for_duration(stimuli)
+        self.draw_stimuli_for_duration(stimuli, duration=None)
         response_keys.append('escape')
         response = event.waitKeys(keyList=response_keys, timeStamped=core.Clock())[0]
         if escape and response[0] == 'escape':
@@ -154,7 +157,7 @@ class Presenter:
 
         # post selection screen
         selected_stim = left_stim if selection == left_value else right_stim
-        self.draw_stimuli_for_duration([selected_stim], post_selection_duration)
+        self.draw_stimuli_for_duration(selected_stim, post_selection_duration)
 
         return selection, rt
 
