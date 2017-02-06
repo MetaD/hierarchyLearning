@@ -74,6 +74,7 @@ class Presenter:
 
     def draw_stimuli_for_duration(self, stimuli, duration):
         """
+        Display the given stimuli for a given duration
         :param stimuli: either a psychopy.visual stimulus or a list of them to draw
         :param duration: a float time duration in seconds
         """
@@ -101,15 +102,21 @@ class Presenter:
             core.quit()
         return response
 
-    def show_instructions(self, key_to_continue, instructions, next_instr_stim=None):
+    def show_instructions(self, instructions, key_to_continue = 'space',
+                          next_instr_text='Press space to continue', next_instr_pos=(0.0, -0.8)):
         """
         Show a list of instructions strings
         :param instructions: an instruction string, or a list containing instruction strings
         :param key_to_continue: a string of the key to press
-        :param next_instr_stim: an optional psychopy.visual.TextStim to show together with each instruction string
+        :param next_instr_text: a string to show together with each page of instruction, could be None
+        :param next_instr_pos: a tuple of floats, position for the above string
         """
         if type(instructions) is str:
             instructions = [instructions]
+        if next_instr_text is not None:
+            next_instr_stim = visual.TextStim(self.window, text=next_instr_text, pos=next_instr_pos)
+        else:
+            next_instr_stim = None
         for instr in instructions:
             instr_stim = visual.TextStim(self.window, text=instr)
             self.draw_stimuli_for_response([instr_stim, next_instr_stim], [key_to_continue])

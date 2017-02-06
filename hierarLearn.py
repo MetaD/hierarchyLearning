@@ -50,7 +50,8 @@ if __name__ == '__main__':
     images = presenter.load_all_images(IMG_FOLDER, '.png')
     random.shuffle(images)
 
-    # show trials
+    # experiment starts
+    presenter.show_instructions('Press F or J to guess which of the two candidates is more likely to be elected as the next president')
     for t in range(NUM_TRIALS):
         data = show_one_trial(images)
         dataLogger.write_data({'trial_index': t, 'response': data})
