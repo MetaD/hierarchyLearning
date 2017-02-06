@@ -8,7 +8,12 @@ def show_one_trial(images):
     random_img_index = random.randrange(len(images) - 1)
     response = presenter.select_from_two_stimuli(images[random_img_index], random_img_index,
                                                  images[random_img_index + 1], random_img_index + 1)
-    return response
+    correct = (response[0] != random_img_index)
+    feedback = FEEDBACK_RIGHT if correct else FEEDBACK_WRONG
+    feedback_stim = visual.TextStim(presenter.window, text=feedback)
+    presenter.draw_stimuli_for_duration(feedback_stim, duration=FEEDBACK_DURATION)
+
+    return response, correct
 
 
 def validation(items):
