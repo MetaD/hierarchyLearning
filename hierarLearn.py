@@ -1,11 +1,14 @@
 #!/usr/bin/env python
 
-import random
 from utilities import *
 from config import *
 
-def show_one_trial():
 
+def show_one_trial(images):
+    random_img_index = random.randrange(len(images) - 1)
+    response = presenter.select_from_two_stimuli(images[random_img_index], random_img_index,
+                                                 images[random_img_index + 1], random_img_index + 1)
+    return response
 
 
 def validation(items):
@@ -29,3 +32,20 @@ if __name__ == '__main__':
     show_form_dialog(sinfo, validation, order=['ID', 'Gender', 'Age', 'Mode'])
     sid = int(sinfo['ID'])
 
+    # create data file
+    dataLogger = DataHandler(DATA_FOLDER, str(sid) + '.dat')
+    # save info from the dialog box
+    dataLogger.write_data({
+        k: str(sinfo[k]) for k in sinfo.keys()
+    })
+    # create window
+    presenter = Presenter(fullscreen=(sinfo['Mode'] == 'Exp'))
+    dataLogger.write_data(presenter.expInfo)
+    # load images
+    images = presenter.load_all_images(IMG_FOLDER, '.png')
+    random.shuffle(images)
+
+    # show trials
+    for t in range(NUM_TRIALS):
+        data = show_one_trial(images)
+        dataLogger.write_data({'trial_index': t, 'response': data})

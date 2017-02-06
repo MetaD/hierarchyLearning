@@ -8,10 +8,11 @@ import os
 import json
 import random
 from psychopy import gui, visual, core, event, info
+import numpy as np
 
 
 # Positions
-CENTER_POS = (0.0, 0.0)
+CENTRAL_POS = (0.0, 0.0)
 LEFT_CENTRAL_POS = (-0.5, 0.0)
 RIGHT_CENTRAL_POS = (0.5, 0.0)
 
@@ -141,43 +142,57 @@ class Presenter:
             left_stim, right_stim = right_stim, left_stim
             left_stim.pos, right_stim.pos = right_stim.pos, left_stim.pos
             left_value, right_value = right_value, left_value
-        if left_stim.pos == (0, 0) or right_stim.pos == (0, 0):
+        if np.all(left_stim.pos == 0) or np.all(right_stim.pos == 0):
             left_stim.pos = LEFT_CENTRAL_POS
             right_stim.pos = RIGHT_CENTRAL_POS
 
         # display stimuli and get response
-        response = self.draw_stimuli_for_response(other_stim + [left_stim, right_stim], response_keys)
+        response = self.draw_stimuli_for_response(other_stim + [left_stim, right_stim], list(response_keys))
         key_pressed = response[0]
         rt = response[1]
         selection = left_value if key_pressed == response_keys[0] else right_value
 
         # post selection screen
         selected_stim = left_stim if selection == left_value else right_stim
-        self.draw_stimuli_for_duration(selected_stim, post_selection_duration)
+        self.draw_stimuli_for_duration([selected_stim], post_selection_duration)
 
         return selection, rt
 
 
 class DataHandler:
-    def __init__(self, data_path, data_file):
+    def __init__(self, filepath, filename):
         """
-        :param data_path: a string ending with '/'
-        :param data_file: a string file name
+        Open file
+        :param filepath: a string data file path
+        :param filename: a string data file name
         """
-        if not os.path.isdir(data_path):
-            os.mkdir(data_path)
-        elif os.path.isfile(data_path + data_file):
-            raise IOError(data_path + data_file + ' already exists')
+        if filepath[len(filepath) - 1] != '/':
+            filepath += '/'
+        if not os.path.isdir(filepath):
+            os.mkdir(filepath)
+        elif os.path.isfile(filepath + filename):
+            raise IOError(filepath + filename + ' already exists')
 
-        self.dataFile = open(data_path + data_file, mode='w')
+        self.dataFile = open(filepath + filename, mode='w')
 
     def __del__(self):
+        """
+        Close file
+        """
         if hasattr(self, 'dataFile'):
             self.dataFile.close()
 
     def write_data(self, data):
+        """
+        Serialize data as a JSON object and write it to file with a newline character at the end
+        :param data: a JSON serializable object
+        """
         json.dump(data, self.dataFile)
         self.dataFile.write('\n')
 
     def load_data(self):
+        """
+        Read the datafile
+        :return: a list of Python objects
+        """
         return [json.loads(line) for line in self.dataFile]
