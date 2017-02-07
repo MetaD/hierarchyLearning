@@ -5,15 +5,18 @@ from config import *
 
 
 def show_one_trial(images):
-    random_img_index = random.randrange(len(images) - 1)
-    response = presenter.select_from_two_stimuli(images[random_img_index], random_img_index,
-                                                 images[random_img_index + 1], random_img_index + 1)
-    correct = (response[0] != random_img_index)
+    rand_i = rand_j = random.randrange(len(images))
+    while rand_j == rand_i:
+        rand_j = random.randrange(len(images))
+    response = presenter.select_from_two_stimuli(images[rand_i], rand_i, images[rand_j], rand_j)
+    correct = (response[0] >= rand_i and response[0] >= rand_j)  # responded the larger index
     feedback = FEEDBACK_RIGHT if correct else FEEDBACK_WRONG
     feedback_stim = visual.TextStim(presenter.window, text=feedback)
     presenter.draw_stimuli_for_duration(feedback_stim, duration=FEEDBACK_DURATION)
 
-    return response, correct
+    return {'images': (rand_i, rand_j),
+            'response': response,
+            'correct': correct}
 
 
 def validation(items):
@@ -49,9 +52,12 @@ if __name__ == '__main__':
     # load images
     images = presenter.load_all_images(IMG_FOLDER, '.png')
     random.shuffle(images)
+    dataLogger.write_data({i: stim._imName for i, stim in enumerate(images)})
 
     # experiment starts
-    presenter.show_instructions('Press F or J to guess which of the two candidates is more likely to be elected as the next president')
+    presenter.show_instructions(INSTR_1)
     for t in range(NUM_TRIALS):
         data = show_one_trial(images)
-        dataLogger.write_data({'trial_index': t, 'response': data})
+        data['trial_index'] = t
+        dataLogger.write_data(data)
+    presenter.show_instructions(INSTR_2)
