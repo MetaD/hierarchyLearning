@@ -8,7 +8,7 @@ def show_one_trial(images):
     rand_i = rand_j = random.randrange(len(images))
     while rand_j == rand_i:
         rand_j = random.randrange(len(images))
-    response = presenter.select_from_two_stimuli(images[rand_i], rand_i, images[rand_j], rand_j)
+    response = presenter.select_from_two_stimuli(images[rand_i], rand_i, images[rand_j], rand_j, random_side=False)
     correct = (response[0] >= rand_i and response[0] >= rand_j)  # responded the larger index
     feedback = FEEDBACK_RIGHT if correct else FEEDBACK_WRONG
     feedback_stim = visual.TextStim(presenter.window, text=feedback)
