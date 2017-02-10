@@ -1,5 +1,6 @@
 # Numbers
-NUM_TRIALS = 3
+NUM_TRIALS_TRAIN = 3
+NUM_TRIALS_TEST = 3
 # Paths
 IMG_FOLDER = 'img/'
 DATA_FOLDER = 'data/'
@@ -9,6 +10,7 @@ FEEDBACK_DURATION = 1
 
 # Strings
 INSTR_1 = 'Press F or J to guess which of the two candidates is more likely to be the next president'
-FEEDBACK_RIGHT = 'You got it'
-FEEDBACK_WRONG = 'Wrong'
-INSTR_2 = 'The world has ended.\nThank you for participating!'
+FEEDBACK_RIGHT = '+ 20 points'
+FEEDBACK_WRONG = '- 20 points'
+INSTR_2 = 'Press F or J to elect a president'
+INSTR_3 = 'The world has ended.\nThank you for participating!'

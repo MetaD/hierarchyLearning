@@ -15,6 +15,8 @@ import numpy as np
 CENTRAL_POS = (0.0, 0.0)
 LEFT_CENTRAL_POS = (-0.5, 0.0)
 RIGHT_CENTRAL_POS = (0.5, 0.0)
+LIKERT_SCALE_INSTR_POS = (-0.8, 0)
+LIKERT_SCALE_OPTION_POS = (0.2, 0)
 
 
 def show_form_dialog(items, validation_func=None, reset_after_error=True, title='', order=[], tip=None):
@@ -96,13 +98,15 @@ class Presenter:
         :return: a tuple (key_pressed, reaction_time_in_seconds)
         """
         self.draw_stimuli_for_duration(stimuli, duration=None)
+        response_keys = list(response_keys)
         response_keys.append('escape')
+        print response_keys
         response = event.waitKeys(keyList=response_keys, timeStamped=core.Clock())[0]
         if escape and response[0] == 'escape':
             core.quit()
         return response
 
-    def show_instructions(self, instructions, key_to_continue = 'space',
+    def show_instructions(self, instructions, key_to_continue='space',
                           next_instr_text='Press space to continue', next_instr_pos=(0.0, -0.8)):
         """
         Show a list of instructions strings
@@ -129,12 +133,24 @@ class Presenter:
         plus_sign = visual.TextStim(self.window, text='+')
         self.draw_stimuli_for_duration([plus_sign], duration)
 
+    def likert_scale(self, instruction, num_options, option_texts=None):
+        instr_stim = visual.TextStim(self.window, text=instruction, pos=LIKERT_SCALE_INSTR_POS)
+        if option_texts is None:
+            option_texts = range(1, num_options + 1)
+        scale_stim = visual.RatingScale(self.window, choices=option_texts)
+        # draw
+        while scale_stim.noResponse:
+            instr_stim.draw()
+            scale_stim.draw()
+            self.window.flip()
+        # results
+        return scale_stim.getRating(), scale_stim.getRT()
+
     def select_from_two_stimuli(self, left_stim, left_value, right_stim, right_value, post_selection_duration=1,
-                                other_stim=[], random_side=True, response_keys=('f', 'j')):
+                                other_stim=None, random_side=True, response_keys=('f', 'j')):
         """
-        Draw 2 stimuli on one screen and wait for a selection (key response). Once a stimulus is selected, the other
-        stimulus will disappear. The value associated with the selected image (specified as parameters) will be
-        returned.
+        Draw 2 stimuli on one screen and wait for a selection (key response). The selected stimulus becomes transparent.
+        The value associated with the selected image (specified as parameters) will be returned.
         If either stimuli have a default central position (i.e. pos == (0, 0)), they will be assigned new positions.
         :param left_stim: A psychopy.visual stimulus
         :param left_value: an object to be returned when the left_stim is selected
@@ -157,6 +173,8 @@ class Presenter:
             right_stim.pos = RIGHT_CENTRAL_POS
 
         # display stimuli and get response
+        if other_stim is None:
+            other_stim = []
         response = self.draw_stimuli_for_response(other_stim + [left_stim, right_stim], list(response_keys))
         key_pressed = response[0]
         rt = response[1]
@@ -164,7 +182,9 @@ class Presenter:
 
         # post selection screen
         selected_stim = left_stim if selection == left_value else right_stim
-        self.draw_stimuli_for_duration(selected_stim, post_selection_duration)
+        selected_stim.opacity -= 0.4
+        self.draw_stimuli_for_duration(other_stim + [left_stim, right_stim], post_selection_duration)
+        selected_stim.opacity += 0.4
 
         return selection, rt
 

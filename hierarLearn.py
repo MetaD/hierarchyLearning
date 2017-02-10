@@ -4,19 +4,36 @@ from utilities import *
 from config import *
 
 
-def show_one_trial(images):
-    rand_i = rand_j = random.randrange(len(images))
-    while rand_j == rand_i:
-        rand_j = random.randrange(len(images))
+def show_one_trial(images, adjacent, feedback, rating):
+    presenter.show_fixation(1)
+    # get random image indexes
+    if adjacent:
+        rand_i = random.randrange(len(images) - 1)
+        rand_j = rand_i + 1
+        if random.randrange(2) == 0:  # switch side
+            rand_i, rand_j = rand_j, rand_i
+    else:
+        rand_i = rand_j = random.randrange(len(images))
+        while rand_j == rand_i:
+            rand_j = random.randrange(len(images))
+    # display & respond
     response = presenter.select_from_two_stimuli(images[rand_i], rand_i, images[rand_j], rand_j, random_side=False)
+    # feedback
     correct = (response[0] >= rand_i and response[0] >= rand_j)  # responded the larger index
-    feedback = FEEDBACK_RIGHT if correct else FEEDBACK_WRONG
-    feedback_stim = visual.TextStim(presenter.window, text=feedback)
-    presenter.draw_stimuli_for_duration(feedback_stim, duration=FEEDBACK_DURATION)
+    if feedback:
+        feedback = FEEDBACK_RIGHT if correct else FEEDBACK_WRONG
+        feedback_stim = visual.TextStim(presenter.window, text=feedback)
+        presenter.draw_stimuli_for_duration(feedback_stim, duration=FEEDBACK_DURATION)
+    # rating
+    if rating:
+        certainty = presenter.likert_scale('How sure?', 3)
+    else:
+        certainty = None
 
     return {'images': (rand_i, rand_j),
             'response': response,
-            'correct': correct}
+            'correct': correct,
+            'certainty': certainty}
 
 
 def validation(items):
@@ -56,8 +73,16 @@ if __name__ == '__main__':
 
     # experiment starts
     presenter.show_instructions(INSTR_1)
-    for t in range(NUM_TRIALS):
-        data = show_one_trial(images)
+    # train
+    for t in range(NUM_TRIALS_TRAIN):
+        data = show_one_trial(images, adjacent=True, feedback=True, rating=False)
         data['trial_index'] = t
         dataLogger.write_data(data)
     presenter.show_instructions(INSTR_2)
+    # test
+    # train
+    for t in range(NUM_TRIALS_TRAIN):
+        data = show_one_trial(images, adjacent=False, feedback=False, rating=True)
+        data['trial_index'] = t
+        dataLogger.write_data(data)
+    presenter.show_instructions(INSTR_3)
