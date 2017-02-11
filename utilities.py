@@ -11,15 +11,7 @@ from psychopy import gui, visual, core, event, info
 import numpy as np
 
 
-# Positions
-CENTRAL_POS = (0.0, 0.0)
-LEFT_CENTRAL_POS = (-0.5, 0.0)
-RIGHT_CENTRAL_POS = (0.5, 0.0)
-LIKERT_SCALE_INSTR_POS = (-0.8, 0)
-LIKERT_SCALE_OPTION_POS = (0.2, 0)
-
-
-def show_form_dialog(items, validation_func=None, reset_after_error=True, title='', order=[], tip=None):
+def show_form_dialog(items, validation_func=None, reset_after_error=True, title='', order=(), tip=None):
     """
     Show a form to be filled within a dialog. The user input values will be stored in items.
     See wxgui.DlgFromDict
@@ -62,6 +54,14 @@ class Presenter:
         """
         self.window = window if window is not None else visual.Window(fullscr=fullscreen)
         self.expInfo = info.RunTimeInfo(win=window, refreshTest=None, verbose=False)
+        # Positions
+        self.CENTRAL_POS = (0.0, 0.0)
+        self.LEFT_CENTRAL_POS = (-0.5, 0.0)
+        self.RIGHT_CENTRAL_POS = (0.5, 0.0)
+        self.LIKERT_SCALE_INSTR_POS = (0, 0.8)
+        self.LIKERT_SCALE_OPTION_INTERVAL = 0.2
+        self.LIKERT_SCALE_OPTION_POS_Y = -0.2
+        self.LIKERT_SCALE_LABEL_POS_Y = -0.35
 
     def load_all_images(self, img_path, img_extension):
         """
@@ -100,7 +100,6 @@ class Presenter:
         self.draw_stimuli_for_duration(stimuli, duration=None)
         response_keys = list(response_keys)
         response_keys.append('escape')
-        print response_keys
         response = event.waitKeys(keyList=response_keys, timeStamped=core.Clock())[0]
         if escape and response[0] == 'escape':
             core.quit()
@@ -133,21 +132,70 @@ class Presenter:
         plus_sign = visual.TextStim(self.window, text='+')
         self.draw_stimuli_for_duration([plus_sign], duration)
 
-    def likert_scale(self, instruction, num_options, option_texts=None):
-        instr_stim = visual.TextStim(self.window, text=instruction, pos=LIKERT_SCALE_INSTR_POS)
+    def likert_scale(self, instruction, num_options, option_texts=None, option_labels=None, side_labels=None,
+                     response_keys=None):
+        """
+        Show a Likert scale of the given range of numbers and wait for a response
+        :param instruction: a string instruction to be displayed
+        :param num_options: an integer number of options, should be greater than 1 and less than 11
+        :param option_texts: a list of strings to be displayed as the options. If not specified, the default texts are
+                             the range from 1 to num_options if num_options < 10, or 0 to 9 if num_options equals 10.
+                             Length of this list should be the same as num_options.
+        :param option_labels: a list of strings to be displayed alongside the option numbers.
+                              Length of this list should be the same as num_options.
+        :param side_labels: a tuple of two strings to be shown under the leftmost and rightmost options,
+                            e.g. ('Not at all', 'Extremely')
+        :param response_keys: an optional list of response keys. If not specified, the default keys are the range from 1
+                              to num_options if num_options < 10, or 0 to 9 if num_options equals 10.
+        :return: a tuple (response, reaction_time_in_seconds)
+        """
+        if num_options < 2 or num_options > 10:
+            raise ValueError('Number of Likert scale options has to be greater than 1 and less than 11')
+        if option_texts is not None and len(option_texts) != num_options:
+            raise ValueError('Number of Likert scale option texts does not match the number of options')
+        if option_labels is not None and len(option_labels) != num_options:
+            raise ValueError('Number of Likert scale option labels does not match the number of options')
+        if side_labels is not None and len(side_labels) != 2:
+            raise ValueError('Number of Likert scale side labels has to be 2')
+
+        # instruction
+        stimuli = [visual.TextStim(self.window, text=instruction, pos=self.LIKERT_SCALE_INSTR_POS)]
+        # option texts
         if option_texts is None:
-            option_texts = range(1, num_options + 1)
-        scale_stim = visual.RatingScale(self.window, choices=option_texts)
-        # draw
-        while scale_stim.noResponse:
-            instr_stim.draw()
-            scale_stim.draw()
-            self.window.flip()
-        # results
-        return scale_stim.getRating(), scale_stim.getRT()
+            if num_options == 10:
+                option_texts = [str(i) for i in range(num_options)]
+            else:
+                option_texts = [str(i + 1) for i in range(num_options)]
+        # side labels
+        if side_labels is not None:
+            if len(side_labels) != 2:
+                raise ValueError('Length of side labels must be 2')
+            option_labels = [side_labels[0]] + [''] * (num_options - 2) + [side_labels[1]]
+        # positions of options/labels
+        scale_width = (len(option_texts) - 1) * self.LIKERT_SCALE_OPTION_INTERVAL
+        if scale_width > 2:
+            pos_x = [float(pos) / 100 for pos in range(-100, 100, int(200 / (len(option_texts) - 1)))]
+        else:
+            pos_x = [float(pos) / 100 for pos in range(-int(scale_width * 50), int(scale_width * 50) + 2,
+                                                       int(self.LIKERT_SCALE_OPTION_INTERVAL * 100))]
+        # construct stimuli
+        for i in range(len(option_texts)):
+            stimuli.append(visual.TextStim(self.window, text=option_texts[i],
+                                           pos=(pos_x[i], self.LIKERT_SCALE_OPTION_POS_Y)))
+        if option_labels is not None:
+            for i in range(len(option_texts)):
+                stimuli.append(visual.TextStim(self.window, text=option_labels[i],
+                                               pos=(pos_x[i], self.LIKERT_SCALE_LABEL_POS_Y)))
+        # response
+        if response_keys is None:
+            response_keys = [str(i + 1) for i in range(num_options)]
+            if num_options == 10:
+                response_keys[9] = '0'
+        response = self.draw_stimuli_for_response(stimuli, response_keys)
+        return response
 
     def select_from_two_stimuli(self, left_stim, left_value, right_stim, right_value, post_selection_duration=1,
-                                other_stim=None, random_side=True, response_keys=('f', 'j')):
+                                other_stim=None, random_side=False, response_keys=('f', 'j')):
         """
         Draw 2 stimuli on one screen and wait for a selection (key response). The selected stimulus becomes transparent.
         The value associated with the selected image (specified as parameters) will be returned.
@@ -166,11 +214,10 @@ class Presenter:
         # assign left/right side
         if random_side and random.randrange(2) == 0:  # swap positions
             left_stim, right_stim = right_stim, left_stim
-            left_stim.pos, right_stim.pos = right_stim.pos, left_stim.pos
             left_value, right_value = right_value, left_value
-        if np.all(left_stim.pos == 0) or np.all(right_stim.pos == 0):
-            left_stim.pos = LEFT_CENTRAL_POS
-            right_stim.pos = RIGHT_CENTRAL_POS
+        old_left_pos, old_right_pos = left_stim.pos, right_stim.pos
+        left_stim.pos = self.LEFT_CENTRAL_POS
+        right_stim.pos = self.RIGHT_CENTRAL_POS
 
         # display stimuli and get response
         if other_stim is None:
@@ -186,6 +233,7 @@ class Presenter:
         self.draw_stimuli_for_duration(other_stim + [left_stim, right_stim], post_selection_duration)
         selected_stim.opacity += 0.4
 
+        left_stim.pos, right_stim.pos = old_left_pos, old_right_pos
         return selection, rt
 
 

@@ -25,10 +25,7 @@ def show_one_trial(images, adjacent, feedback, rating):
         feedback_stim = visual.TextStim(presenter.window, text=feedback)
         presenter.draw_stimuli_for_duration(feedback_stim, duration=FEEDBACK_DURATION)
     # rating
-    if rating:
-        certainty = presenter.likert_scale('How sure?', 3)
-    else:
-        certainty = None
+    certainty = presenter.likert_scale('How sure?', num_options=3, side_labels=('Meh', 'So sure')) if rating else None
 
     return {'images': (rand_i, rand_j),
             'response': response,
@@ -80,8 +77,7 @@ if __name__ == '__main__':
         dataLogger.write_data(data)
     presenter.show_instructions(INSTR_2)
     # test
-    # train
-    for t in range(NUM_TRIALS_TRAIN):
+    for t in range(NUM_TRIALS_TEST):
         data = show_one_trial(images, adjacent=False, feedback=False, rating=True)
         data['trial_index'] = t
         dataLogger.write_data(data)
