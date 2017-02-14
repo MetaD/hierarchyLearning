@@ -8,7 +8,6 @@ import os
 import json
 import random
 from psychopy import gui, visual, core, event, info
-import numpy as np
 
 
 def show_form_dialog(items, validation_func=None, reset_after_error=True, title='', order=(), tip=None):

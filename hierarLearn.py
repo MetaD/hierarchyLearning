@@ -22,7 +22,8 @@ def show_one_trial(images, adjacent, feedback, rating):
     correct = (response[0] >= rand_i and response[0] >= rand_j)  # responded the larger index
     if feedback:
         feedback = FEEDBACK_RIGHT if correct else FEEDBACK_WRONG
-        feedback_stim = visual.TextStim(presenter.window, text=feedback)
+        feedback_color = FEEDBACK_GREEN if correct else FEEDBACK_RED
+        feedback_stim = visual.TextStim(presenter.window, text=feedback, color=feedback_color)
         presenter.draw_stimuli_for_duration(feedback_stim, duration=FEEDBACK_DURATION)
     # rating
     certainty = presenter.likert_scale('How sure?', num_options=3, side_labels=('Meh', 'So sure')) if rating else None
@@ -65,6 +66,8 @@ if __name__ == '__main__':
     dataLogger.write_data(presenter.expInfo)
     # load images
     images = presenter.load_all_images(IMG_FOLDER, '.png')
+    # randomize
+    random.seed(sid)
     random.shuffle(images)
     dataLogger.write_data({i: stim._imName for i, stim in enumerate(images)})
 
