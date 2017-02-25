@@ -65,7 +65,7 @@ if __name__ == '__main__':
     presenter = Presenter(fullscreen=(sinfo['Mode'] == 'Exp'))
     dataLogger.write_data(presenter.expInfo)
     # load images
-    images = presenter.load_all_images(IMG_FOLDER, '.png')
+    images = presenter.load_all_images(IMG_FOLDER, '.jpg', IMG_PREFIX)
     # randomize
     random.seed(sid)
     random.shuffle(images)

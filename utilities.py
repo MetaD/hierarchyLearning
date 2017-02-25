@@ -62,14 +62,18 @@ class Presenter:
         self.LIKERT_SCALE_OPTION_POS_Y = -0.2
         self.LIKERT_SCALE_LABEL_POS_Y = -0.35
 
-    def load_all_images(self, img_path, img_extension):
+    def load_all_images(self, img_path, img_extension, img_prefix=None):
         """
         Read all image files in img_path that end with img_extension, and create corresponding ImageStim.
         :param img_path: a string path which should end with '/'
         :param img_extension: a string of image file extension
+        :param img_prefix: a string prefix of file names. If specified, files without this prefix wouldn't be loaded
         :return: a list of psychopy.visual.ImageStim
         """
-        img_files = [img_path + filename for filename in os.listdir(img_path) if filename.endswith(img_extension)]
+        img_files = [filename for filename in os.listdir(img_path) if filename.endswith(img_extension)]
+        if img_prefix is not None:
+            img_files = [filename for filename in img_files if filename.startswith(img_prefix)]
+        img_files = [img_path + filename for filename in img_files]
         img_stims = [visual.ImageStim(self.window, image=img_file) for img_file in img_files]
         return img_stims
 

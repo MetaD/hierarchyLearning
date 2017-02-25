@@ -4,6 +4,7 @@ NUM_TRIALS_TEST = 3
 # Paths
 IMG_FOLDER = 'img/'
 DATA_FOLDER = 'data/'
+IMG_PREFIX = 'F'  # 'M'
 # Times
 FEEDBACK_DURATION = 1
 # Colors
