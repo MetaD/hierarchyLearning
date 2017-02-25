@@ -19,7 +19,7 @@ def show_one_trial(images, adjacent, feedback, rating):
     # display & respond
     response = presenter.select_from_two_stimuli(images[rand_i], rand_i, images[rand_j], rand_j, random_side=False)
     # feedback
-    correct = (response[0] >= rand_i and response[0] >= rand_j)  # responded the larger index
+    correct = (response[0] <= rand_i and response[0] <= rand_j)  # responded the smaller index == higher status
     if feedback:
         feedback = FEEDBACK_RIGHT if correct else FEEDBACK_WRONG
         feedback_color = FEEDBACK_GREEN if correct else FEEDBACK_RED
@@ -68,7 +68,7 @@ if __name__ == '__main__':
     images = presenter.load_all_images(IMG_FOLDER, '.jpg', IMG_PREFIX)
     # randomize
     random.seed(sid)
-    random.shuffle(images)
+    random.shuffle(images)  # status high -> low
     dataLogger.write_data({i: stim._imName for i, stim in enumerate(images)})
 
     # experiment starts
