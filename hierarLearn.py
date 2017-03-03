@@ -16,22 +16,34 @@ def show_one_trial(images, adjacent, feedback, rating):
         rand_i = rand_j = random.randrange(len(images))
         while rand_j == rand_i:
             rand_j = random.randrange(len(images))
-    # display & respond
-    response = presenter.select_from_two_stimuli(images[rand_i], rand_i, images[rand_j], rand_j, random_side=False)
+    # define correctness
+    def correctness(selection):
+        return selection <= rand_i and selection <= rand_j  # responded the smaller index == higher status
     # feedback
-    correct = (response[0] <= rand_i and response[0] <= rand_j)  # responded the smaller index == higher status
     if feedback:
-        feedback = FEEDBACK_RIGHT if correct else FEEDBACK_WRONG
-        feedback_color = FEEDBACK_GREEN if correct else FEEDBACK_RED
-        feedback_stim = visual.TextStim(presenter.window, text=feedback, color=feedback_color)
-        presenter.draw_stimuli_for_duration(feedback_stim, duration=FEEDBACK_DURATION)
+        feedback_stims = (visual.TextStim(presenter.window, text=FEEDBACK_RIGHT, color=FEEDBACK_GREEN),
+                          visual.TextStim(presenter.window, text=FEEDBACK_WRONG, color=FEEDBACK_RED))
+        # display, respond & feedback
+        response = presenter.select_from_two_stimuli(images[rand_i], rand_i, images[rand_j], rand_j, random_side=False,
+                                                     post_selection_time=0, correctness_func=correctness,
+                                                     feedback_stims=feedback_stims, feedback_time=FEEDBACK_TIME)
+        correct = response[2]
+    else:
+        # display & respond
+        response = presenter.select_from_two_stimuli(images[rand_i], rand_i, images[rand_j], rand_j, random_side=False,
+                                                     post_selection_time=POST_SELECTION_TIME)
+        correct = correctness(response[0])
     # rating
-    certainty = presenter.likert_scale('How sure?', num_options=3, side_labels=('Meh', 'So sure')) if rating else None
-
-    return {'images': (rand_i, rand_j),
-            'response': response,
-            'correct': correct,
-            'certainty': certainty}
+    if rating:
+        presenter.LIKERT_SCALE_OPTION_INTERVAL = 0.4
+        certainty = presenter.likert_scale(LIKERT_SCALE_QUESTION, num_options=3, option_labels=LIKERT_SCALE_LABELS)
+    # data
+    result = {'images': (rand_i, rand_j),
+              'response': response[:2],
+              'correct': correct}
+    if rating:
+        result['certainty'] = certainty
+    return result
 
 
 def validation(items):
@@ -73,15 +85,17 @@ if __name__ == '__main__':
 
     # experiment starts
     presenter.show_instructions(INSTR_1)
-    # train
-    for t in range(NUM_TRIALS_TRAIN):
-        data = show_one_trial(images, adjacent=True, feedback=True, rating=False)
-        data['trial_index'] = t
-        dataLogger.write_data(data)
-    presenter.show_instructions(INSTR_2)
-    # test
-    for t in range(NUM_TRIALS_TEST):
-        data = show_one_trial(images, adjacent=False, feedback=False, rating=True)
-        data['trial_index'] = t
-        dataLogger.write_data(data)
+    for block in range(NUM_BLOCKS):
+        # train
+        presenter.show_instructions(INSTR_TRAIN)
+        for t in range(NUM_TRIALS_TRAIN):
+            data = show_one_trial(images, adjacent=True, feedback=True, rating=False)
+            data['trial_index'] = t
+            dataLogger.write_data(data)
+        # test
+        presenter.show_instructions(INSTR_TEST)
+        for t in range(NUM_TRIALS_TEST):
+            data = show_one_trial(images, adjacent=False, feedback=False, rating=True)
+            data['trial_index'] = t
+            dataLogger.write_data(data)
     presenter.show_instructions(INSTR_3)
