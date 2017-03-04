@@ -1,7 +1,9 @@
 # Numbers
-NUM_BLOCKS = 2  # 12
-NUM_TRIALS_TRAIN = 3  # 8
-NUM_TRIALS_TEST = 3  # 8
+NUM_BLOCKS = 1   # 12
+NUM_CYCLES_TRAIN = 2
+NUM_CYCLES_TEST = 1
+TRAIN_PAIRS = [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 8)]
+TEST_PAIRS = [(1, 3), (1, 4), (2, 4), (2, 5), (3, 5), (3, 6), (4, 6), (4, 7)]
 # Paths
 IMG_FOLDER = 'img/'
 DATA_FOLDER = 'data/'
@@ -22,7 +24,7 @@ INSTR_1 = ['We\'re interested in individual differences in how people learn abou
            'more power in the organization.',
            'In the second phase, you will have to use the knowledge you acquired during phase 1 to make judgments ' +
            'about individuals.']
-INSTR_3 = 'Thank you for participating!'
+INSTR_2 = 'Thank you for participating!'
 
 INSTR_TRAIN = ['Get ready for Training trials.',
                'Press F if you think the person on the left has more power.\n' +

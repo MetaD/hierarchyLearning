@@ -4,46 +4,32 @@ from utilities import *
 from config import *
 
 
-def show_one_trial(images, adjacent, feedback, rating):
+def show_one_trial(images, indexes, feedback, rating):
     presenter.show_fixation(1)
-    # get random image indexes
-    if adjacent:
-        rand_i = random.randrange(len(images) - 1)
-        rand_j = rand_i + 1
-        if random.randrange(2) == 0:  # switch side
-            rand_i, rand_j = rand_j, rand_i
-    else:
-        rand_i = rand_j = random.randrange(len(images))
-        while rand_j == rand_i:
-            rand_j = random.randrange(len(images))
+    i = indexes[0]
+    j = indexes[1]
     # define correctness
     def correctness(selection):
-        return selection <= rand_i and selection <= rand_j  # responded the smaller index == higher status
+        return selection <= i and selection <= j  # responded the smaller index == higher status
     # feedback
     if feedback:
         feedback_stims = (visual.TextStim(presenter.window, text=FEEDBACK_RIGHT, color=FEEDBACK_GREEN),
                           visual.TextStim(presenter.window, text=FEEDBACK_WRONG, color=FEEDBACK_RED))
         # display, respond & feedback
-        response = presenter.select_from_two_stimuli(images[rand_i], rand_i, images[rand_j], rand_j, random_side=False,
-                                                     post_selection_time=0, correctness_func=correctness,
-                                                     feedback_stims=feedback_stims, feedback_time=FEEDBACK_TIME)
-        correct = response[2]
+        trial_info = presenter.select_from_two_stimuli(images[i], i, images[j], j, post_selection_time=0,
+                                                       highlight=highlight, correctness_func=correctness,
+                                                       feedback_stims=feedback_stims, feedback_time=FEEDBACK_TIME)
     else:
         # display & respond
-        response = presenter.select_from_two_stimuli(images[rand_i], rand_i, images[rand_j], rand_j, random_side=False,
-                                                     post_selection_time=POST_SELECTION_TIME)
-        correct = correctness(response[0])
+        trial_info = presenter.select_from_two_stimuli(images[i], i, images[j], j,
+                                                       post_selection_time=POST_SELECTION_TIME, highlight=highlight)
+        trial_info['correct'] = correctness(trial_info['response'])
     # rating
     if rating:
-        presenter.LIKERT_SCALE_OPTION_INTERVAL = 0.4
         certainty = presenter.likert_scale(LIKERT_SCALE_QUESTION, num_options=3, option_labels=LIKERT_SCALE_LABELS)
-    # data
-    result = {'images': (rand_i, rand_j),
-              'response': response[:2],
-              'correct': correct}
-    if rating:
-        result['certainty'] = certainty
-    return result
+        trial_info['certainty'] = certainty
+
+    return trial_info
 
 
 def validation(items):
@@ -63,7 +49,7 @@ def validation(items):
 
 if __name__ == '__main__':
     # subject ID dialog
-    sinfo = {'ID': '', 'Gender': ['Female', 'Male'], 'Age': '', 'Mode': ['Test', 'Exp']}
+    sinfo = {'ID': '', 'Gender': ['Female', 'Male'], 'Age': '', 'Mode': ['Exp', 'Test']}
     show_form_dialog(sinfo, validation, order=['ID', 'Gender', 'Age', 'Mode'])
     sid = int(sinfo['ID'])
 
@@ -75,9 +61,11 @@ if __name__ == '__main__':
     })
     # create window
     presenter = Presenter(fullscreen=(sinfo['Mode'] == 'Exp'))
+    presenter.LIKERT_SCALE_OPTION_INTERVAL = 0.6
     dataLogger.write_data(presenter.expInfo)
     # load images
     images = presenter.load_all_images(IMG_FOLDER, '.jpg', IMG_PREFIX)
+    highlight = visual.ImageStim(presenter.window, image=IMG_FOLDER + 'highlight.png')
     # randomize
     random.seed(sid)
     random.shuffle(images)  # status high -> low
@@ -88,14 +76,17 @@ if __name__ == '__main__':
     for block in range(NUM_BLOCKS):
         # train
         presenter.show_instructions(INSTR_TRAIN)
-        for t in range(NUM_TRIALS_TRAIN):
-            data = show_one_trial(images, adjacent=True, feedback=True, rating=False)
-            data['trial_index'] = t
-            dataLogger.write_data(data)
+        for t in range(NUM_CYCLES_TRAIN):
+            random.shuffle(TRAIN_PAIRS)
+            for pair in TRAIN_PAIRS:
+                data = show_one_trial(images, pair, feedback=True, rating=False)
+                data['block'] = str(block) + '_train_' + str(t)
+                dataLogger.write_data(data)
         # test
         presenter.show_instructions(INSTR_TEST)
-        for t in range(NUM_TRIALS_TEST):
-            data = show_one_trial(images, adjacent=False, feedback=False, rating=True)
-            data['trial_index'] = t
-            dataLogger.write_data(data)
-    presenter.show_instructions(INSTR_3)
+        for t in range(NUM_CYCLES_TEST):
+            for pair in TEST_PAIRS:
+                data = show_one_trial(images, pair, feedback=False, rating=True)
+                data['block'] = str(block) + '_test'
+                dataLogger.write_data(data)
+    presenter.show_instructions(INSTR_2)

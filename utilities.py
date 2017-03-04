@@ -200,9 +200,9 @@ class Presenter:
         response = self.draw_stimuli_for_response(stimuli, response_keys)
         return response
 
-    def select_from_two_stimuli(self, left_stim, left_value, right_stim, right_value, post_selection_time=1,
-                                other_stim=None, random_side=False, response_keys=('f', 'j'), correctness_func=None,
-                                feedback_stims=(), feedback_time=1):
+    def select_from_two_stimuli(self, left_stim, left_value, right_stim, right_value, other_stim=None, random_side=True,
+                                response_keys=('f', 'j'), post_selection_time=1, highlight=None,
+                                correctness_func=None, feedback_stims=(), feedback_time=1):
         """
         Draw 2 stimuli on one screen and wait for a selection (key response). The selected stimulus becomes more
         transparent. A feedback stimulus can be optionally displayed next to the selected stimulus.
@@ -211,17 +211,19 @@ class Presenter:
         :param left_value: an object to be returned when the left_stim is selected
         :param right_stim: Another psychopy.visual stimulus
         :param right_value: an object to be returned when the right_stim is selected
-        :param post_selection_time: the duration (in seconds) to display the selected stimulus differently
         :param other_stim: an optional list of psychopy.visual stimuli to be displayed
         :param random_side: if True, the images will show on random sides
         :param response_keys: a list of two strings corresponds to left and right images
+        :param post_selection_time: the duration (in seconds) to display the selected stimulus with highlight or
+                                    reduced opacity
+        :param highlight: a psychopy.visual stimuli to be displayed at same position as the selected stimulus. If None,
+                          the selected stimulus will be shown with reduced opacity
         :param correctness_func: a function that takes the value associated with the selected stimuli and returns a bool
                                  indicating whether the selection is correct or not
         :param feedback_stims: a tuple of two psychopy.visual stimuli (correct, incorrect) to be displayed beside the
                                selection as a feedback
-        :param feedback_duration: the duration (in seconds) to display the selected stimulus only
-        :return: a tuple (value, reaction_time_in_seconds), where value is either left_value or right_value depending
-                 on the response
+        :param feedback_time: the duration (in seconds) to display the selected stimulus only
+        :return: a dictionary containing trial and response information.
         """
         # assign left/right side
         if random_side and random.randrange(2) == 0:  # swap positions
@@ -242,9 +244,14 @@ class Presenter:
 
         # post selection screen
         selected_stim = left_stim if selection == left_value else right_stim
-        selected_stim.opacity -= self.SELECTED_STIM_OPACITY_CHANGE
-        self.draw_stimuli_for_duration(all_stims, post_selection_time)
-        selected_stim.opacity += self.SELECTED_STIM_OPACITY_CHANGE
+        if highlight is None:
+            selected_stim.opacity -= self.SELECTED_STIM_OPACITY_CHANGE
+            self.draw_stimuli_for_duration(all_stims, post_selection_time)
+            selected_stim.opacity += self.SELECTED_STIM_OPACITY_CHANGE
+        else:
+            highlight.pos = selected_stim.pos
+            all_stims.append(highlight)
+            self.draw_stimuli_for_duration(all_stims, post_selection_time)
 
         # feedback
         correct = None
@@ -257,9 +264,9 @@ class Presenter:
 
         left_stim.pos, right_stim.pos = old_left_pos, old_right_pos
         if correct is None:
-            return selection, rt
+            return {'stims': (left_value, right_value), 'response': selection, 'rt': rt}
         else:
-            return selection, rt, correct
+            return {'stims': (left_value, right_value), 'response': selection, 'rt': rt, 'correct': correct}
 
 
 class DataHandler:
