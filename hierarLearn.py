@@ -61,7 +61,7 @@ if __name__ == '__main__':
     })
     # create window
     presenter = Presenter(fullscreen=(sinfo['Mode'] == 'Exp'))
-    presenter.LIKERT_SCALE_OPTION_INTERVAL = 0.6
+    presenter.LIKERT_SCALE_OPTION_INTERVAL = 0.7
     dataLogger.write_data(presenter.expInfo)
     # load images
     images = presenter.load_all_images(IMG_FOLDER, '.jpg', IMG_PREFIX)
