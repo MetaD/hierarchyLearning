@@ -4,13 +4,13 @@ NUM_CYCLES_TRAIN = 2
 NUM_CYCLES_TEST = 1
 TRAIN_PAIRS = [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 8)]
 TEST_PAIRS = [(1, 3), (1, 4), (2, 4), (2, 5), (3, 5), (3, 6), (4, 6), (4, 7)]
+POINTS = 20
 # Paths
 IMG_FOLDER = 'img/'
 DATA_FOLDER = 'data/'
 IMG_PREFIX = 'F'  # 'M'
 # Times
 FIXATION_TIME = 1.5
-CHOICE_TIME = 3  # TODO
 POST_SELECTION_TIME = 1
 FEEDBACK_TIME = 1  # 2
 # Colors
@@ -27,19 +27,19 @@ INSTR_1 = ['We\'re interested in individual differences in how people learn abou
 INSTR_2 = 'Thank you for participating!'
 
 INSTR_TRAIN = ['Get ready for Training trials.',
-               'Press F if you think the person on the left has more power.\n' +
-               'Press J if you think the person on the right has more power.\n' +
+               'Press F if you think the person on the left has more power.\n\n' +
+               'Press J if you think the person on the right has more power.\n\n' +
                'If you respond correctly, you\'ll win 20 points. If you respond incorrectly, you\'ll lose 20 points.']
 INSTR_TEST = ['Get ready for Test trials',
-              'In test trials, press F or J to choose the person who you think has more power.\n' +
+              'In test trials, press F or J to choose the person who you think has more power.\n\n' +
               'Then, rate on a scale of 1 to 3 your confidence in your decision:\n' +
               '1 = You\'re guessing entirely\n' +
               '2 = You have some idea but are not sure\n' +
-              '3 = You\'re more than 90% certain\n' +
+              '3 = You\'re more than 90% certain\n\n' +
               'Your confidence ratings will not affect your final payout, but try to answer as accurately as possible.']
 
-FEEDBACK_RIGHT = '+ 20 points'
-FEEDBACK_WRONG = '- 20 points'
+FEEDBACK_RIGHT = '+ ' + str(POINTS) + ' points'
+FEEDBACK_WRONG = '- ' + str(POINTS) + ' points'
 
 LIKERT_SCALE_QUESTION = 'Please rate your confidence'
 LIKERT_SCALE_LABELS = ('Guessing entirely', 'Not sure but have some idea', '90%-100% certain')

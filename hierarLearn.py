@@ -74,6 +74,7 @@ if __name__ == '__main__':
     # experiment starts
     presenter.show_instructions(INSTR_1)
     for block in range(NUM_BLOCKS):
+        points = 0
         # train
         presenter.show_instructions(INSTR_TRAIN)
         for t in range(NUM_CYCLES_TRAIN):
@@ -82,6 +83,7 @@ if __name__ == '__main__':
                 data = show_one_trial(images, pair, feedback=True, rating=False)
                 data['block'] = str(block) + '_train_' + str(t)
                 dataLogger.write_data(data)
+                points += (1 if data['correct'] else -1) * POINTS
         # test
         presenter.show_instructions(INSTR_TEST)
         for t in range(NUM_CYCLES_TEST):
@@ -89,4 +91,6 @@ if __name__ == '__main__':
                 data = show_one_trial(images, pair, feedback=False, rating=True)
                 data['block'] = str(block) + '_test'
                 dataLogger.write_data(data)
+                points += (1 if data['correct'] else -1) * POINTS
+        presenter.show_instructions('You won a total of ' + str(points) + ' points in this block.')
     presenter.show_instructions(INSTR_2)
