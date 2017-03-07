@@ -52,6 +52,7 @@ if __name__ == '__main__':
     sinfo = {'ID': '', 'Gender': ['Female', 'Male'], 'Age': '', 'Mode': ['Exp', 'Test']}
     show_form_dialog(sinfo, validation, order=['ID', 'Gender', 'Age', 'Mode'])
     sid = int(sinfo['ID'])
+    IMG_PREFIX = sinfo['Gender'][0]
 
     # create data file
     dataLogger = DataHandler(DATA_FOLDER, str(sid) + '.dat')
