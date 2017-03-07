@@ -92,5 +92,6 @@ if __name__ == '__main__':
                 data['block'] = str(block) + '_test'
                 dataLogger.write_data(data)
                 points += (1 if data['correct'] else -1) * POINTS
-        presenter.show_instructions('You won a total of ' + str(points) + ' points in this block.')
+        presenter.show_instructions('You got a total of ' + str(points) + ' points in this block.')
+        dataLogger.write_data({'block_earnings': points})
     presenter.show_instructions(INSTR_2)
