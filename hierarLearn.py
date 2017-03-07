@@ -4,34 +4,32 @@ from utilities import *
 from config import *
 
 
-def show_one_trial(images, adjacent, feedback, rating):
+def show_one_trial(images, indexes, feedback, rating):
     presenter.show_fixation(1)
-    # get random image indexes
-    if adjacent:
-        rand_i = random.randrange(len(images) - 1)
-        rand_j = rand_i + 1
-        if random.randrange(2) == 0:  # switch side
-            rand_i, rand_j = rand_j, rand_i
-    else:
-        rand_i = rand_j = random.randrange(len(images))
-        while rand_j == rand_i:
-            rand_j = random.randrange(len(images))
-    # display & respond
-    response = presenter.select_from_two_stimuli(images[rand_i], rand_i, images[rand_j], rand_j, random_side=False)
+    i = indexes[0]
+    j = indexes[1]
+    # define correctness
+    def correctness(selection):
+        return selection <= i and selection <= j  # responded the smaller index == higher status
     # feedback
-    correct = (response[0] >= rand_i and response[0] >= rand_j)  # responded the larger index
     if feedback:
-        feedback = FEEDBACK_RIGHT if correct else FEEDBACK_WRONG
-        feedback_color = FEEDBACK_GREEN if correct else FEEDBACK_RED
-        feedback_stim = visual.TextStim(presenter.window, text=feedback, color=feedback_color)
-        presenter.draw_stimuli_for_duration(feedback_stim, duration=FEEDBACK_DURATION)
+        feedback_stims = (visual.TextStim(presenter.window, text=FEEDBACK_RIGHT, color=FEEDBACK_GREEN),
+                          visual.TextStim(presenter.window, text=FEEDBACK_WRONG, color=FEEDBACK_RED))
+        # display, respond & feedback
+        trial_info = presenter.select_from_two_stimuli(images[i], i, images[j], j, post_selection_time=0,
+                                                       highlight=highlight, correctness_func=correctness,
+                                                       feedback_stims=feedback_stims, feedback_time=FEEDBACK_TIME)
+    else:
+        # display & respond
+        trial_info = presenter.select_from_two_stimuli(images[i], i, images[j], j,
+                                                       post_selection_time=POST_SELECTION_TIME, highlight=highlight)
+        trial_info['correct'] = correctness(trial_info['response'])
     # rating
-    certainty = presenter.likert_scale('How sure?', num_options=3, side_labels=('Meh', 'So sure')) if rating else None
+    if rating:
+        certainty = presenter.likert_scale(LIKERT_SCALE_QUESTION, num_options=3, option_labels=LIKERT_SCALE_LABELS)
+        trial_info['certainty'] = certainty
 
-    return {'images': (rand_i, rand_j),
-            'response': response,
-            'correct': correct,
-            'certainty': certainty}
+    return trial_info
 
 
 def validation(items):
@@ -51,7 +49,7 @@ def validation(items):
 
 if __name__ == '__main__':
     # subject ID dialog
-    sinfo = {'ID': '', 'Gender': ['Female', 'Male'], 'Age': '', 'Mode': ['Test', 'Exp']}
+    sinfo = {'ID': '', 'Gender': ['Female', 'Male'], 'Age': '', 'Mode': ['Exp', 'Test']}
     show_form_dialog(sinfo, validation, order=['ID', 'Gender', 'Age', 'Mode'])
     sid = int(sinfo['ID'])
 
@@ -63,25 +61,37 @@ if __name__ == '__main__':
     })
     # create window
     presenter = Presenter(fullscreen=(sinfo['Mode'] == 'Exp'))
+    presenter.LIKERT_SCALE_OPTION_INTERVAL = 0.7
     dataLogger.write_data(presenter.expInfo)
     # load images
-    images = presenter.load_all_images(IMG_FOLDER, '.png')
+    images = presenter.load_all_images(IMG_FOLDER, '.jpg', IMG_PREFIX)
+    highlight = visual.ImageStim(presenter.window, image=IMG_FOLDER + 'highlight.png')
     # randomize
     random.seed(sid)
-    random.shuffle(images)
+    random.shuffle(images)  # status high -> low
     dataLogger.write_data({i: stim._imName for i, stim in enumerate(images)})
 
     # experiment starts
     presenter.show_instructions(INSTR_1)
-    # train
-    for t in range(NUM_TRIALS_TRAIN):
-        data = show_one_trial(images, adjacent=True, feedback=True, rating=False)
-        data['trial_index'] = t
-        dataLogger.write_data(data)
+    for block in range(NUM_BLOCKS):
+        points = 0
+        # train
+        presenter.show_instructions(INSTR_TRAIN)
+        for t in range(NUM_CYCLES_TRAIN):
+            random.shuffle(TRAIN_PAIRS)
+            for pair in TRAIN_PAIRS:
+                data = show_one_trial(images, pair, feedback=True, rating=False)
+                data['block'] = str(block) + '_train_' + str(t)
+                dataLogger.write_data(data)
+                points += (1 if data['correct'] else -1) * POINTS
+        # test
+        presenter.show_instructions(INSTR_TEST)
+        for t in range(NUM_CYCLES_TEST):
+            for pair in TEST_PAIRS:
+                data = show_one_trial(images, pair, feedback=False, rating=True)
+                data['block'] = str(block) + '_test'
+                dataLogger.write_data(data)
+                points += (1 if data['correct'] else -1) * POINTS
+        presenter.show_instructions('You got a total of ' + str(points) + ' points in this block.')
+        dataLogger.write_data({'block_earnings': points})
     presenter.show_instructions(INSTR_2)
-    # test
-    for t in range(NUM_TRIALS_TEST):
-        data = show_one_trial(images, adjacent=False, feedback=False, rating=True)
-        data['trial_index'] = t
-        dataLogger.write_data(data)
-    presenter.show_instructions(INSTR_3)

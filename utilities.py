@@ -61,15 +61,22 @@ class Presenter:
         self.LIKERT_SCALE_OPTION_INTERVAL = 0.2
         self.LIKERT_SCALE_OPTION_POS_Y = -0.2
         self.LIKERT_SCALE_LABEL_POS_Y = -0.35
+        self.FEEDBACK_POS_Y = -0.4
+        # Selection
+        self.SELECTED_STIM_OPACITY_CHANGE = 0.3
 
-    def load_all_images(self, img_path, img_extension):
+    def load_all_images(self, img_path, img_extension, img_prefix=None):
         """
         Read all image files in img_path that end with img_extension, and create corresponding ImageStim.
         :param img_path: a string path which should end with '/'
         :param img_extension: a string of image file extension
+        :param img_prefix: a string prefix of file names. If specified, files without this prefix wouldn't be loaded
         :return: a list of psychopy.visual.ImageStim
         """
-        img_files = [img_path + filename for filename in os.listdir(img_path) if filename.endswith(img_extension)]
+        img_files = [filename for filename in os.listdir(img_path) if filename.endswith(img_extension)]
+        if img_prefix is not None:
+            img_files = [filename for filename in img_files if filename.startswith(img_prefix)]
+        img_files = [img_path + filename for filename in img_files]
         img_stims = [visual.ImageStim(self.window, image=img_file) for img_file in img_files]
         return img_stims
 
@@ -193,22 +200,30 @@ class Presenter:
         response = self.draw_stimuli_for_response(stimuli, response_keys)
         return response
 
-    def select_from_two_stimuli(self, left_stim, left_value, right_stim, right_value, post_selection_duration=1,
-                                other_stim=None, random_side=False, response_keys=('f', 'j')):
+    def select_from_two_stimuli(self, left_stim, left_value, right_stim, right_value, other_stim=None, random_side=True,
+                                response_keys=('f', 'j'), post_selection_time=1, highlight=None,
+                                correctness_func=None, feedback_stims=(), feedback_time=1):
         """
-        Draw 2 stimuli on one screen and wait for a selection (key response). The selected stimulus becomes transparent.
+        Draw 2 stimuli on one screen and wait for a selection (key response). The selected stimulus becomes more
+        transparent. A feedback stimulus can be optionally displayed next to the selected stimulus.
         The value associated with the selected image (specified as parameters) will be returned.
-        If either stimuli have a default central position (i.e. pos == (0, 0)), they will be assigned new positions.
         :param left_stim: A psychopy.visual stimulus
         :param left_value: an object to be returned when the left_stim is selected
         :param right_stim: Another psychopy.visual stimulus
         :param right_value: an object to be returned when the right_stim is selected
-        :param post_selection_duration: the duration (in seconds) to display the selected stimulus only
         :param other_stim: an optional list of psychopy.visual stimuli to be displayed
         :param random_side: if True, the images will show on random sides
         :param response_keys: a list of two strings corresponds to left and right images
-        :return: a tuple (value, reaction_time_in_seconds), where value is either left_value or right_value depending
-                 on the response
+        :param post_selection_time: the duration (in seconds) to display the selected stimulus with highlight or
+                                    reduced opacity
+        :param highlight: a psychopy.visual stimuli to be displayed at same position as the selected stimulus. If None,
+                          the selected stimulus will be shown with reduced opacity
+        :param correctness_func: a function that takes the value associated with the selected stimuli and returns a bool
+                                 indicating whether the selection is correct or not
+        :param feedback_stims: a tuple of two psychopy.visual stimuli (correct, incorrect) to be displayed beside the
+                               selection as a feedback
+        :param feedback_time: the duration (in seconds) to display the selected stimulus only
+        :return: a dictionary containing trial and response information.
         """
         # assign left/right side
         if random_side and random.randrange(2) == 0:  # swap positions
@@ -221,19 +236,37 @@ class Presenter:
         # display stimuli and get response
         if other_stim is None:
             other_stim = []
-        response = self.draw_stimuli_for_response(other_stim + [left_stim, right_stim], list(response_keys))
+        all_stims = other_stim + [left_stim, right_stim]
+        response = self.draw_stimuli_for_response(all_stims, list(response_keys))
         key_pressed = response[0]
         rt = response[1]
         selection = left_value if key_pressed == response_keys[0] else right_value
 
         # post selection screen
         selected_stim = left_stim if selection == left_value else right_stim
-        selected_stim.opacity -= 0.4
-        self.draw_stimuli_for_duration(other_stim + [left_stim, right_stim], post_selection_duration)
-        selected_stim.opacity += 0.4
+        if highlight is None:
+            selected_stim.opacity -= self.SELECTED_STIM_OPACITY_CHANGE
+            self.draw_stimuli_for_duration(all_stims, post_selection_time)
+            selected_stim.opacity += self.SELECTED_STIM_OPACITY_CHANGE
+        else:
+            highlight.pos = selected_stim.pos
+            all_stims.append(highlight)
+            self.draw_stimuli_for_duration(all_stims, post_selection_time)
+
+        # feedback
+        correct = None
+        if correctness_func is not None and len(feedback_stims) == 2:
+            correct = correctness_func(selection)
+            stim = feedback_stims[int(correct)]
+            stim.pos = (selected_stim.pos[0], self.FEEDBACK_POS_Y)
+            all_stims.append(stim)
+            self.draw_stimuli_for_duration(all_stims, feedback_time)
 
         left_stim.pos, right_stim.pos = old_left_pos, old_right_pos
-        return selection, rt
+        if correct is None:
+            return {'stims': (left_value, right_value), 'response': selection, 'rt': rt}
+        else:
+            return {'stims': (left_value, right_value), 'response': selection, 'rt': rt, 'correct': correct}
 
 
 class DataHandler:
