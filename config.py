@@ -32,9 +32,11 @@ INSTR_TRAIN = ['Get ready for Training trials.',
                'If you respond correctly, you\'ll win 20 points. If you respond incorrectly, you\'ll lose 20 points.']
 INSTR_TEST = ['Get ready for Test trials',
               'In test trials, press F or J to choose the person who you think has more power.\n\n' +
-              'No feedback is provided in test trials, however, your responses count just as training trials for ' +
+              'You\'ll notice that there will be pairs presented together that aren\'t presented during training ' +
+              'trials - here you\'ll have to use your judgement to choose the correct one.\n\n' +
+              'Feedback is not provided in test trials, however, your responses count just as training trials for ' +
               'computing your pay.',
-              'You will also be asked to rate your confidence in your choices during test trials on a scale of 1-3\n' +
+              'You will also be asked to rate your confidence in your choices during test trials on a scale of 1-3:\n' +
               '\n1 = You\'re guessing entirely\n' +
               '2 = You have some idea but are not sure\n' +
               '3 = You\'re more than 90% certain\n\n' +
