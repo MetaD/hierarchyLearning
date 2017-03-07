@@ -27,7 +27,7 @@ INSTR_1 = ['We\'re interested in individual differences in how people learn abou
 INSTR_2 = 'Thank you for participating!'
 
 INSTR_TRAIN = ['Get ready for Training trials.',
-               'Press F if you think the person on the left has more power.\n\n' +
+               'In training trials, press F if you think the person on the left has more power.\n\n' +
                'Press J if you think the person on the right has more power.\n\n' +
                'If you respond correctly, you\'ll win 20 points. If you respond incorrectly, you\'ll lose 20 points.']
 INSTR_TEST = ['Get ready for Test trials',
@@ -35,7 +35,7 @@ INSTR_TEST = ['Get ready for Test trials',
               'No feedback is provided in test trials, however, your responses count just as training trials for ' +
               'computing your pay.',
               'You will also be asked to rate your confidence in your choices during test trials on a scale of 1-3\n' +
-              '1 = You\'re guessing entirely\n' +
+              '\n1 = You\'re guessing entirely\n' +
               '2 = You have some idea but are not sure\n' +
               '3 = You\'re more than 90% certain\n\n' +
               'Your confidence ratings will not affect your final payout, but try to answer as accurately as possible.']
