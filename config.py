@@ -1,5 +1,5 @@
 # Numbers
-NUM_BLOCKS = 1   # 12
+NUM_BLOCKS = 3   # 12
 NUM_CYCLES_TRAIN = 2
 NUM_CYCLES_TEST = 1
 TRAIN_PAIRS = [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 8)]
@@ -14,7 +14,7 @@ FIXATION_TIME = 1.5
 POST_SELECTION_TIME = 1
 FEEDBACK_TIME = 1  # 2
 # Colors
-FEEDBACK_RED = '#ff807c'
+FEEDBACK_RED = '#FF0000'
 FEEDBACK_GREEN = '#84ff84'
 # Strings
 INSTR_1 = ['We\'re interested in individual differences in how people learn about social information.',
