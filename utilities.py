@@ -220,7 +220,7 @@ class Presenter:
                           the selected stimulus will be shown with reduced opacity
         :param correctness_func: a function that takes the value associated with the selected stimuli and returns a bool
                                  indicating whether the selection is correct or not
-        :param feedback_stims: a tuple of two psychopy.visual stimuli (correct, incorrect) to be displayed beside the
+        :param feedback_stims: a tuple of two psychopy.visual stimuli (incorrect, correct) to be displayed beside the
                                selection as a feedback
         :param feedback_time: the duration (in seconds) to display the selected stimulus only
         :return: a dictionary containing trial and response information.
