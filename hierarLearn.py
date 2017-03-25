@@ -13,8 +13,8 @@ def show_one_trial(images, indexes, feedback, rating):
         return selection <= i and selection <= j  # responded the smaller index == higher status
     # feedback
     if feedback:
-        feedback_stims = (visual.TextStim(presenter.window, text=FEEDBACK_RIGHT, color=FEEDBACK_GREEN),
-                          visual.TextStim(presenter.window, text=FEEDBACK_WRONG, color=FEEDBACK_RED))
+        feedback_stims = (visual.TextStim(presenter.window, text=FEEDBACK_WRONG, color=FEEDBACK_RED),
+                          visual.TextStim(presenter.window, text=FEEDBACK_RIGHT, color=FEEDBACK_GREEN))
         # display, respond & feedback
         trial_info = presenter.select_from_two_stimuli(images[i], i, images[j], j, post_selection_time=0,
                                                        highlight=highlight, correctness_func=correctness,
