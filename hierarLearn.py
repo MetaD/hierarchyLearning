@@ -52,7 +52,7 @@ if __name__ == '__main__':
     sinfo = {'ID': '', 'Gender': ['Female', 'Male'], 'Age': '', 'Mode': ['Exp', 'Test']}
     show_form_dialog(sinfo, validation, order=['ID', 'Gender', 'Age', 'Mode'])
     sid = int(sinfo['ID'])
-    IMG_PREFIX = sinfo['Gender'][0]
+    img_prefix = sinfo['Gender'][0]
 
     # create data file
     dataLogger = DataHandler(DATA_FOLDER, str(sid) + '.dat')
@@ -65,7 +65,7 @@ if __name__ == '__main__':
     presenter.LIKERT_SCALE_OPTION_INTERVAL = 0.7
     dataLogger.write_data(presenter.expInfo)
     # load images
-    images = presenter.load_all_images(IMG_FOLDER, '.jpg', IMG_PREFIX)
+    images = presenter.load_all_images(IMG_FOLDER, '.jpg', img_prefix)
     highlight = visual.ImageStim(presenter.window, image=IMG_FOLDER + 'highlight.png')
     # randomize
     random.seed(sid)
@@ -93,6 +93,7 @@ if __name__ == '__main__':
                 data['block'] = str(block) + '_test'
                 dataLogger.write_data(data)
                 points += (1 if data['correct'] else -1) * POINTS
-        presenter.show_instructions('You earned total of ' + str(points) + ' points in this block.')
+        presenter.show_instructions('You ' + ('won' if points >= 0 else 'lost') + ' a total of ' + str(abs(points)) +
+                                    ' points in this block.')
         dataLogger.write_data({'block_earnings': points})
     presenter.show_instructions(INSTR_2)
