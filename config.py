@@ -8,7 +8,6 @@ POINTS = 20
 # Paths
 IMG_FOLDER = 'img/'
 DATA_FOLDER = 'data/'
-IMG_PREFIX = 'F'  # 'M' Todo
 # Times
 FIXATION_TIME = 1.5
 POST_SELECTION_TIME = 1
