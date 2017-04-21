@@ -34,12 +34,12 @@ INSTR_TEST = ['Get ready for Test trials',
               'You\'ll notice that there will be pairs presented together that aren\'t presented during training ' +
               'trials - here you\'ll have to use your judgement to choose the correct one.\n\n' +
               'Feedback is not provided in test trials, however, your responses count just as training trials for ' +
-              'computing your pay.',
+              'computing your final score.',
               'You will also be asked to rate your confidence in your choices during test trials on a scale of 1-3:\n' +
               '\n1 = You\'re guessing entirely\n' +
               '2 = You have some idea but are not sure\n' +
               '3 = You\'re more than 90% certain\n\n' +
-              'Your confidence ratings will not affect your final payout, but try to answer as accurately as possible.']
+              'Your confidence ratings will not affect your final score, but try to answer as accurately as possible.']
 
 FEEDBACK_RIGHT = '+ ' + str(POINTS) + ' points'
 FEEDBACK_WRONG = '- ' + str(POINTS) + ' points'
