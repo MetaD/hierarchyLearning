@@ -32,6 +32,33 @@ def show_one_trial(images, indexes, feedback, rating):
     return trial_info
 
 
+def show_one_block(block_i):
+    points = 0
+    # train
+    presenter.show_instructions(INSTR_TRAIN)
+    num_correct = 0
+    for t in range(NUM_CYCLES_PER_BLOCK_TRAIN):
+        random.shuffle(TRAIN_PAIRS)
+        for pair in TRAIN_PAIRS:
+            data = show_one_trial(images, pair, feedback=True, rating=False)
+            data['block'] = str(block_i) + '_train_' + str(t)
+            dataLogger.write_data(data)
+            points += (1 if data['correct'] else -1) * POINTS
+            num_correct += 1 if data['correct'] else 0
+    training_accuracy.append(float(num_correct) / (NUM_CYCLES_PER_BLOCK_TRAIN * len(TRAIN_PAIRS)))
+    # test
+    presenter.show_instructions(INSTR_TEST)
+    for t in range(NUM_CYCLES_PER_BLOCK_TEST):
+        for pair in TEST_PAIRS:
+            data = show_one_trial(images, pair, feedback=False, rating=True)
+            data['block'] = str(block_i) + '_test'
+            dataLogger.write_data(data)
+            points += (1 if data['correct'] else -1) * POINTS
+    presenter.show_instructions('You ' + ('won' if points >= 0 else 'lost') + ' a total of ' + str(abs(points)) +
+                                ' points in this block.')
+    dataLogger.write_data({'block_earnings': points})
+
+
 def validation(items):
     # check empty field
     for key in items.keys():
@@ -74,26 +101,15 @@ if __name__ == '__main__':
 
     # experiment starts
     presenter.show_instructions(INSTR_1)
+    training_accuracy = []  # accuracy in each block
     for block in range(NUM_BLOCKS):
-        points = 0
-        # train
-        presenter.show_instructions(INSTR_TRAIN)
-        for t in range(NUM_CYCLES_TRAIN):
-            random.shuffle(TRAIN_PAIRS)
-            for pair in TRAIN_PAIRS:
-                data = show_one_trial(images, pair, feedback=True, rating=False)
-                data['block'] = str(block) + '_train_' + str(t)
-                dataLogger.write_data(data)
-                points += (1 if data['correct'] else -1) * POINTS
-        # test
-        presenter.show_instructions(INSTR_TEST)
-        for t in range(NUM_CYCLES_TEST):
-            for pair in TEST_PAIRS:
-                data = show_one_trial(images, pair, feedback=False, rating=True)
-                data['block'] = str(block) + '_test'
-                dataLogger.write_data(data)
-                points += (1 if data['correct'] else -1) * POINTS
-        presenter.show_instructions('You ' + ('won' if points >= 0 else 'lost') + ' a total of ' + str(abs(points)) +
-                                    ' points in this block.')
-        dataLogger.write_data({'block_earnings': points})
+        show_one_block(block)
+    # additional blocks
+    num_additional_blocks = 0
+    while (training_accuracy[-1] < PASSING_ACCURACY or training_accuracy[-2] < PASSING_ACCURACY) \
+            and num_additional_blocks < MAX_ADDITIONAL_BLOCKS:
+        show_one_block(NUM_BLOCKS + num_additional_blocks)
+        num_additional_blocks += 1
+    # end
     presenter.show_instructions(INSTR_2)
+    print 'training:', training_accuracy
