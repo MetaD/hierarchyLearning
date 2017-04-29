@@ -12,15 +12,22 @@ def show_one_trial(images, indexes, feedback, rating):
     i = indexes[0]
     j = indexes[1]
     choose = visual.TextStim(presenter.window, 'Choose')
+    data = {'stimuli': (i, j), 'no_response_loops': 0}
     # images & selection
-    presenter.draw_stimuli_for_duration(images[i], FIRST_IMG_TIME)
-    presenter.show_blank(IMG_INTERVAL)
-    presenter.draw_stimuli_for_duration(images[j], SECOND_IMG_TIME)
-    response = presenter.draw_stimuli_for_response(choose, IMG_RESPONSE_KEYS)
+    while True:
+        presenter.draw_stimuli_for_duration(images[i], FIRST_IMG_TIME)
+        presenter.show_blank(IMG_INTERVAL)
+        presenter.draw_stimuli_for_duration(images[j], SECOND_IMG_TIME)
+        response = presenter.draw_stimuli_for_response(choose, IMG_RESPONSE_KEYS, max_wait=MAX_WAIT_TIME)
+        if response is None:
+            data['no_response_loops'] += 1
+        else:
+            data.update(response)
+            break
     # feedback
     selected_stim = images[i] if response['response'] == IMG_RESPONSE_KEYS[0] else images[j]
     correct = i < j if response['response'] == IMG_RESPONSE_KEYS[0] else j < i
-    response['correct'] = correct
+    data['correct'] = correct
     if feedback:
         feedback_stim = visual.TextStim(presenter.window, text=FEEDBACK_RIGHT, color=FEEDBACK_GREEN) if correct else \
                         visual.TextStim(presenter.window, text=FEEDBACK_WRONG, color=FEEDBACK_RED)
@@ -32,9 +39,9 @@ def show_one_trial(images, indexes, feedback, rating):
     # rating
     if rating:
         certainty = presenter.likert_scale(LIKERT_SCALE_QUESTION, num_options=3, option_labels=LIKERT_SCALE_LABELS)
-        response['certainty'] = certainty
+        data['certainty'] = certainty
 
-    return response
+    return data
 
 
 def show_one_block(block_i):
