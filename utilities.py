@@ -102,13 +102,13 @@ class Presenter:
         :param response_keys: a list containing strings of response keys
         :param max_wait: a numeric value indicating the maximum number of seconds to wait for keys.
                          By default it waits forever
-        :return: a tuple (key_pressed, reaction_time_in_seconds)
+        :return: a dictionary {'response': key_pressed, 'rt': reaction_time_in_seconds)
         """
         self.draw_stimuli_for_duration(stimuli, duration=None)
         response = event.waitKeys(maxWait=max_wait, keyList=response_keys, timeStamped=core.Clock())
         if response is None:  # timed out
             return None
-        return response[0]
+        return {'response': response[0][0], 'rt': response[0][1]}
 
     def show_instructions(self, instructions, position=(0, 0), other_stim=(), key_to_continue='space',
                           next_instr_text='Press space to continue', next_instr_pos=(0.0, -0.8)):
@@ -119,7 +119,7 @@ class Presenter:
         :param other_stim: a list of other psychopy.visual stimuli to be displayed on each page of instructions
         :param key_to_continue: a string of the key to press
         :param next_instr_text: a string to show together with each page of instruction, could be None
-        :param next_instr_pos: a tuple of floats, position for the above string
+        :param next_instr_pos: (a tuple of floats) position for the above string
         """
         if type(instructions) is str:
             instructions = [instructions]
@@ -139,7 +139,7 @@ class Presenter:
         plus_sign = visual.TextStim(self.window, text='+')
         self.draw_stimuli_for_duration(plus_sign, duration)
 
-    def show_blank_screen(self, duration):
+    def show_blank(self, duration):
         """
         Show a blank screen for a specified duration
         :param duration: a time duration in seconds
@@ -162,7 +162,7 @@ class Presenter:
                             e.g. ('Not at all', 'Extremely')
         :param response_keys: an optional list of response keys. If not specified, the default keys are the range from 1
                               to num_options if num_options < 10, or 0 to 9 if num_options equals 10.
-        :return: a tuple (response, reaction_time_in_seconds)
+        :return: a dictionary {'response': key_pressed, 'rt': reaction_time_in_seconds)
         """
         if num_options < 2 or num_options > 10:
             raise ValueError('Number of Likert scale options has to be greater than 1 and less than 11')
@@ -281,57 +281,6 @@ class Presenter:
                 return {'response': selection, 'rt': rt}
             else:
                 return {'response': selection, 'rt': rt, 'correct': correct}
-
-    def select_from_two_stimuli(self, left_stim, left_value, right_stim, right_value, other_stim=None, random_side=True,
-                                response_keys=('f', 'j'), max_wait=float('inf'), post_selection_time=1, highlight=None,
-                                correctness_func=None, positioned_feedback_stims=(), feedback_stims=(),
-                                no_response_stim=None, feedback_time=1):
-        """
-        Draw 2 stimuli on one screen and wait for a selection (key response). The selected stimulus can be highlighted.
-        A feedback stimulus can be optionally displayed next to the selected stimulus.
-        The value associated with the selected image (specified as parameters) will be returned.
-        :param left_stim: A psychopy.visual stimulus
-        :param left_value: an object to be returned when the left_stim is selected
-        :param right_stim: Another psychopy.visual stimulus
-        :param right_value: an object to be returned when the right_stim is selected
-        :param other_stim: an optional list of psychopy.visual stimuli to be displayed
-        :param random_side: if True, the images will show on random sides
-        :param response_keys: a list of two strings corresponds to left and right images
-        :param max_wait: a numeric value indicating the maximum number of seconds to wait for keys.
-                         By default it waits forever
-        :param post_selection_time: the duration (in seconds) to display the selected stimulus with a highlight (or
-                                    reduced opacity if highlight is None)
-        :param highlight: a psychopy.visual stimuli to be displayed at same position as the selected stimulus during
-                          both post_selection_time and feedback_time. If None, the selected stimulus will be shown with
-                          reduced opacity
-        :param correctness_func: a function that takes the value associated with the selected stimuli and returns a bool
-                                 indicating whether the selection is correct or not
-        :param positioned_feedback_stims: a tuple of two psychopy.visual stimuli (incorrect, correct) to be displayed
-                               beside the selection as feedback
-        :param feedback_stims: a tuple of two lists of psychopy.visual stimuli ([incorrect], [correct]) to be displayed
-                               at the positions they have
-        :param no_response_stim: a psychopy.visual stimulus to be displayed when participants respond too slow
-        :param feedback_time: the duration (in seconds) to display the stimuli with highlight and feedback
-        :return: a dictionary containing trial and response information.
-        """
-        # assign left/right side
-        if random_side and random.randrange(2) == 0:  # swap positions
-            left_stim, right_stim = right_stim, left_stim
-            left_value, right_value = right_value, left_value
-        old_left_pos, old_right_pos = left_stim.pos, right_stim.pos
-        left_stim.pos = self.LEFT_CENTRAL_POS
-        right_stim.pos = self.RIGHT_CENTRAL_POS
-        # display stuff and get response
-        if other_stim is None:
-            other_stim = []
-        result = self.select_from_stimuli(other_stim + [left_stim, right_stim], [left_value, right_value],
-                                          response_keys, max_wait, post_selection_time, highlight, correctness_func,
-                                          positioned_feedback_stims, feedback_stims, no_response_stim, feedback_time)
-        # recover previous positions
-        left_stim.pos, right_stim.pos = old_left_pos, old_right_pos
-
-        result['stimuli'] = (left_value, right_value)
-        return result
 
 
 class DataHandler:

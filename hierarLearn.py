@@ -2,34 +2,39 @@
 
 from utilities import *
 from config import *
+import time
 
 
 def show_one_trial(images, indexes, feedback, rating):
-    presenter.show_fixation(1)
+    presenter.show_fixation(FIXATION_TIME)
+    indexes = list(indexes)
+    random.shuffle(indexes)
     i = indexes[0]
     j = indexes[1]
-    # define correctness
-    def correctness(selection):
-        return selection <= i and selection <= j  # responded the smaller index == higher status
+    choose = visual.TextStim(presenter.window, 'Choose')
+    # images & selection
+    presenter.draw_stimuli_for_duration(images[i], FIRST_IMG_TIME)
+    presenter.show_blank(IMG_INTERVAL)
+    presenter.draw_stimuli_for_duration(images[j], SECOND_IMG_TIME)
+    response = presenter.draw_stimuli_for_response(choose, IMG_RESPONSE_KEYS)
     # feedback
+    selected_stim = images[i] if response['response'] == IMG_RESPONSE_KEYS[0] else images[j]
+    correct = i < j if response['response'] == IMG_RESPONSE_KEYS[0] else j < i
+    response['correct'] = correct
     if feedback:
-        feedback_stims = (visual.TextStim(presenter.window, text=FEEDBACK_WRONG, color=FEEDBACK_RED),
-                          visual.TextStim(presenter.window, text=FEEDBACK_RIGHT, color=FEEDBACK_GREEN))
-        # display, respond & feedback
-        trial_info = presenter.select_from_two_stimuli(images[i], i, images[j], j, post_selection_time=0,
-                                                       highlight=highlight, correctness_func=correctness,
-                                                       feedback_stims=feedback_stims, feedback_time=FEEDBACK_TIME)
+        feedback_stim = visual.TextStim(presenter.window, text=FEEDBACK_RIGHT, color=FEEDBACK_GREEN) if correct else \
+                        visual.TextStim(presenter.window, text=FEEDBACK_WRONG, color=FEEDBACK_RED)
+        feedback_stim.pos = FEEDBACK_POSITION
+        feedback_stim.height = 0.13
+        presenter.draw_stimuli_for_duration([selected_stim, highlight, feedback_stim], FEEDBACK_TIME)
     else:
-        # display & respond
-        trial_info = presenter.select_from_two_stimuli(images[i], i, images[j], j,
-                                                       post_selection_time=POST_SELECTION_TIME, highlight=highlight)
-        trial_info['correct'] = correctness(trial_info['response'])
+        presenter.draw_stimuli_for_duration([selected_stim, highlight], FEEDBACK_TIME)
     # rating
     if rating:
         certainty = presenter.likert_scale(LIKERT_SCALE_QUESTION, num_options=3, option_labels=LIKERT_SCALE_LABELS)
-        trial_info['certainty'] = certainty
+        response['certainty'] = certainty
 
-    return trial_info
+    return response
 
 
 def show_one_block(block_i):
@@ -98,6 +103,7 @@ if __name__ == '__main__':
     random.seed(sid)
     random.shuffle(images)  # status high -> low
     dataLogger.write_data({i: stim._imName for i, stim in enumerate(images)})
+    random.seed(time.time())
 
     # experiment starts
     presenter.show_instructions(INSTR_1)

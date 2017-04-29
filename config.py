@@ -11,12 +11,17 @@ MAX_ADDITIONAL_BLOCKS = 4
 IMG_FOLDER = 'img/'
 DATA_FOLDER = 'data/'
 # Times
-FIXATION_TIME = 1.5
-POST_SELECTION_TIME = 1
-FEEDBACK_TIME = 1  # 2
+FIXATION_TIME = 1
+FIRST_IMG_TIME = 1.5
+IMG_INTERVAL = 0.1
+SECOND_IMG_TIME = 1.5
+FEEDBACK_TIME = 1
 # Colors
 FEEDBACK_RED = '#FF0000'
 FEEDBACK_GREEN = '#84ff84'
+# Other stuff
+IMG_RESPONSE_KEYS = ('q', 'w')
+FEEDBACK_POSITION = (0, -0.5)
 # Strings
 INSTR_1 = ['We\'re interested in individual differences in how people learn about social information.',
            'You\'re going to see pictures we\'ve taken of 9 different individuals who are all members of an ' +
@@ -28,11 +33,12 @@ INSTR_1 = ['We\'re interested in individual differences in how people learn abou
 INSTR_2 = 'Thank you for participating!'
 
 INSTR_TRAIN = ['Get ready for Training trials.',
-               'In training trials, press F if you think the person on the left has more power.\n\n' +
-               'Press J if you think the person on the right has more power.\n\n' +
+               'In training trials, press ' + IMG_RESPONSE_KEYS[0].upper() + ' if you think the first person has ' +
+               'more power.\n\n' +
+               'Press ' + IMG_RESPONSE_KEYS[1].upper() + ' if you think second person has more power.\n\n' +
                'If you respond correctly, you\'ll win 20 points. If you respond incorrectly, you\'ll lose 20 points.']
 INSTR_TEST = ['Get ready for Test trials',
-              'In test trials, press F or J to choose the person who you think has more power.\n\n' +
+              'In test trials, press 1 or 2 to choose the person who you think has more power.\n\n' +
               'You\'ll notice that there will be pairs presented together that aren\'t presented during training ' +
               'trials - here you\'ll have to use your judgement to choose the correct one.\n\n' +
               'Feedback is not provided in test trials, however, your responses count just as training trials for ' +
