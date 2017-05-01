@@ -23,6 +23,7 @@ FEEDBACK_GREEN = '#84ff84'
 # Other stuff
 IMG_RESPONSE_KEYS = ('q', 'w')
 FEEDBACK_POSITION = (0, -0.5)
+TOP_INSTR_POSITION = (0, 0.7)
 # Strings
 INSTR_1 = ['We\'re interested in individual differences in how people learn about social information.',
            'You\'re going to see pictures we\'ve taken of 9 different individuals who are all members of an ' +
@@ -52,6 +53,8 @@ INSTR_TEST = ['Get ready for Test trials',
 
 FEEDBACK_RIGHT = '+ ' + str(POINTS) + ' points'
 FEEDBACK_WRONG = '- ' + str(POINTS) + ' points'
+
+INSTR_REINFORCE = ['In this pair, the person below is ', ' powerful.']
 
 LIKERT_SCALE_QUESTION = 'Please rate your confidence'
 LIKERT_SCALE_LABELS = ('Guessing entirely', 'Not sure but have some idea', '90%-100% certain')

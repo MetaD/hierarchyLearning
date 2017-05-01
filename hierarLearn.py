@@ -34,6 +34,12 @@ def show_one_trial(images, indexes, feedback, rating):
         feedback_stim.pos = FEEDBACK_POSITION
         feedback_stim.height = 0.13
         presenter.draw_stimuli_for_duration([selected_stim, highlight, feedback_stim], FEEDBACK_TIME)
+        # reinforcement
+        words = ['MORE', 'LESS'] if i < j else ['LESS', 'MORE']
+        presenter.show_instructions(INSTR_REINFORCE[0] + words[0] + INSTR_REINFORCE[1], position=TOP_INSTR_POSITION,
+                                    other_stim=[images[i]])
+        presenter.show_instructions(INSTR_REINFORCE[0] + words[1] + INSTR_REINFORCE[1], position=TOP_INSTR_POSITION,
+                                    other_stim=[images[j]])
     else:
         presenter.draw_stimuli_for_duration([selected_stim, highlight], FEEDBACK_TIME)
     # rating
