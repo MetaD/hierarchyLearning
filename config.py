@@ -40,7 +40,8 @@ INSTR_TRAIN = ['Get ready for Training trials.',
                'Press ' + IMG_RESPONSE_KEYS[1].upper() + ' if you think second person has more power.\n\n' +
                'If you respond correctly, you\'ll win 20 points. If you respond incorrectly, you\'ll lose 20 points.']
 INSTR_TEST = ['Get ready for Test trials',
-              'In test trials, press 1 or 2 to choose the person who you think has more power.\n\n' +
+              'In test trials, press ' + IMG_RESPONSE_KEYS[0].upper() + ' or ' + IMG_RESPONSE_KEYS[1].upper() +
+              ' to choose the person who you think has more power.\n\n' +
               'You\'ll notice that there will be pairs presented together that aren\'t presented during training ' +
               'trials - here you\'ll have to use your judgement to choose the correct one.\n\n' +
               'Feedback is not provided in test trials, however, your responses count just as training trials for ' +
