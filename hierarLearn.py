@@ -54,7 +54,7 @@ def show_one_block(block_i):
             data['block'] = str(block_i) + '_test'
             dataLogger.write_data(data)
             points += (1 if data['correct'] else -1) * POINTS
-    presenter.show_instructions('Your score is ' + points + ' in this block.')
+    presenter.show_instructions('Your score is ' + str(points) + ' in this block.')
     dataLogger.write_data({'block_earnings': points})
 
 
