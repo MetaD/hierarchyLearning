@@ -5,7 +5,6 @@ NUM_CYCLES_PER_BLOCK_TEST = 1
 TRAIN_PAIRS = [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 8)]
 TEST_PAIRS = [(1, 3), (1, 4), (2, 4), (2, 5), (3, 5), (3, 6), (4, 6), (4, 7)]
 POINTS = 20
-PASSING_ACCURACY = 0.9
 MAX_ADDITIONAL_BLOCKS = 4
 # Paths
 IMG_FOLDER = 'img/'
