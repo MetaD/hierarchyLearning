@@ -105,8 +105,13 @@ if __name__ == '__main__':
         show_one_block(block)
     # additional blocks
     num_additional_blocks = 0
-    while (training_accuracy[-1] < PASSING_ACCURACY or training_accuracy[-2] < PASSING_ACCURACY) \
-            and num_additional_blocks < MAX_ADDITIONAL_BLOCKS:
+    def low_accuracy():
+        if training_accuracy[-1] < 0.85 and training_accuracy[-2] < 0.85:
+            return True
+        if training_accuracy[-1] < 0.8 or training_accuracy[-2] < 0.8:
+            return True
+        return False
+    while low_accuracy() and num_additional_blocks < MAX_ADDITIONAL_BLOCKS:
         show_one_block(NUM_BLOCKS + num_additional_blocks)
         num_additional_blocks += 1
     # end
