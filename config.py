@@ -36,10 +36,9 @@ INSTR_TRAIN = ['Get ready for Training trials.',
                'If you respond incorrectly, you\'ll lose ' + str(TRAIN_POINTS) + ' points.']
 INSTR_TEST = ['Get ready for Test trials',
               'In Test Trials, you\'ll be presented with pairs of people who are more different from each other ' +
-              '(compared to the Training Trials) in terms of how much power they have.' +
+              '(compared to the Training Trials) in terms of how much power they have - here you\'ll have to use ' +
+              'your judgement to choose the correct one.\n\n' +
               'Press F or J to choose the person who you think has more power.\n\n' +
-              'You\'ll notice that there will be pairs presented together that aren\'t presented during training ' +
-              'trials - here you\'ll have to use your judgement to choose the correct one.\n\n' +
               'Feedback is not provided in test trials, however, your responses count just as training trials for ' +
               'computing your final score.\n\n' +
               'If you respond correctly, you\'ll win ' + str(TEST_POINTS) + ' points. ' +
@@ -50,8 +49,8 @@ INSTR_TEST = ['Get ready for Test trials',
               '3 = You\'re more than 90% certain\n\n' +
               'Your confidence ratings will not affect your final score, but try to answer as accurately as possible.']
 
-FEEDBACK_RIGHT = '+ ' + str(POINTS) + ' points'
-FEEDBACK_WRONG = '- ' + str(POINTS) + ' points'
+FEEDBACK_RIGHT = '+ ' + str(TRAIN_POINTS) + ' points'
+FEEDBACK_WRONG = '- ' + str(TRAIN_POINTS) + ' points'
 
 LIKERT_SCALE_QUESTION = 'Please rate your confidence'
 LIKERT_SCALE_LABELS = ('Guessing entirely', 'Not sure but have some idea', '90%-100% certain')

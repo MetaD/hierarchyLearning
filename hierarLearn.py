@@ -43,7 +43,7 @@ def show_one_block(block_i):
             data = show_one_trial(images, pair, feedback=True, rating=False)
             data['block'] = str(block_i) + '_train_' + str(t)
             dataLogger.write_data(data)
-            points += (1 if data['correct'] else -1) * POINTS
+            points += (1 if data['correct'] else -1) * TRAIN_POINTS
             num_correct += 1 if data['correct'] else 0
     training_accuracy.append(float(num_correct) / (NUM_CYCLES_PER_BLOCK_TRAIN * len(TRAIN_PAIRS)))
     # test
@@ -53,7 +53,7 @@ def show_one_block(block_i):
             data = show_one_trial(images, pair, feedback=False, rating=True)
             data['block'] = str(block_i) + '_test'
             dataLogger.write_data(data)
-            points += (1 if data['correct'] else -1) * POINTS
+            points += (1 if data['correct'] else -1) * TEST_POINTS
     presenter.show_instructions('Your score is ' + str(points) + ' in this block.')
     dataLogger.write_data({'block_earnings': points})
 

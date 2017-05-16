@@ -1,0 +1,23 @@
+{"Gender": "Female", "Age": "2", "ID": "2", "Mode": "Exp"}
+{"psychopyVersion": "1.84.2", "systemRebooted": "May 9 16:46", "systemUserID": 501, "windowRefreshTimeMedian_ms": 16.644994417826336, "systemTimeNumpySD1000000_sec": 0.005330085754394531, "systemUserProcFlagged": [["mdworker", "2651"], ["Safari", "9016"], ["iTunes", "9386"], ["iTunes", "10682"], ["Google Chrome", "10830"], ["Google Chrome", "10836"], ["Google Chrome", "10843"], ["Google Chrome", "10844"], ["Google Chrome", "10845"], ["Google Chrome", "10848"], ["Google Chrome", "10852"], ["iTunes", "11315"], ["mdworker", "11385"], ["mdworker", "11388"], ["mdworker", "11400"], ["mdworker", "11401"], ["mdworker", "11691"], ["Google Chrome", "11997"], ["Google Chrome", "11998"]], "systemSec.OpenSSLVersion": "OpenSSL 0.9.8zh 14 Jan 2016", "systemUser": "mengdu", "systemHaveInternetAccess": true, "systemMemFreeRAM": 2488.22265625, "psychopyHaveExtRush": true, "systemUserProcCount": 161, "windowRefreshTimeAvg_ms": 16.74345792350122, "systemLocale": "C", "systemPyoVersion": "0.8.0", "systemPyo.OutputDevices": {"1": {"host api index": 0, "latency": 0.04571428522467613, "default sr": 44100, "name": "Built-in Output"}}, "systemPlatform": "darwin 10.12.4 x86_64", "experimentRunTime": "2017_05_15 18:12 (Year_Month_Day Hour:Min)", "windowRefreshTimeSD_ms": 2.584662925523564, "experimentScript.directory": "/Users/mengdu/Repos/hierarchy/learning", "systemPyo.InputDevices": {"0": {"host api index": 0, "latency": 0.0006122448830865324, "default sr": 44100, "name": "Built-in Microph"}}, "systemSec.pythonSSL": true, "experimentRunTime.epoch": 1494897131, "experimentScript": "hierarLearn.py", "experimentScript.digestSHA1": "aa7b7167f197021459e6fa37d39cb3ae107bc41a", "systemUsersCount": 1, "pythonVersion": "2.7.12", "systemMemTotalRAM": 8192.0, "systemHostName": "Mengs-MacBook-Pro.local"}
+{"0": "img/F2.jpg", "1": "img/F6.jpg", "2": "img/F4.jpg", "3": "img/F3.jpg", "4": "img/F5.jpg", "5": "img/F7.jpg", "6": "img/F1.jpg", "7": "img/F8.jpg", "8": "img/F9.jpg"}
+{"rt": 1.071117877960205, "stimuli": [0, 1], "response": 0, "block": "0_train_0", "correct": true}
+{"rt": 1.4590528011322021, "stimuli": [3, 2], "response": 2, "block": "0_train_0", "correct": true}
+{"rt": 1.2085719108581543, "stimuli": [2, 1], "response": 1, "block": "0_train_0", "correct": true}
+{"rt": 0.9648008346557617, "stimuli": [0, 1], "response": 0, "block": "0_train_1", "correct": true}
+{"rt": 1.7835907936096191, "stimuli": [1, 2], "response": 1, "block": "0_train_1", "correct": true}
+{"rt": 2.3570339679718018, "stimuli": [2, 3], "response": 2, "block": "0_train_1", "correct": true}
+{"rt": 0.9860148429870605, "correct": true, "certainty": ["3", 1.4584541320800781], "response": 1, "stimuli": [3, 1], "block": "0_test"}
+{"rt": 1.4564769268035889, "correct": true, "certainty": ["3", 1.014409065246582], "response": 1, "stimuli": [4, 1], "block": "0_test"}
+{"rt": 4.357148885726929, "correct": true, "certainty": ["3", 0.25856804847717285], "response": 2, "stimuli": [4, 2], "block": "0_test"}
+{"block_earnings": 360}
+{"rt": 1.1831278800964355, "stimuli": [2, 1], "response": 1, "block": "1_train_0", "correct": true}
+{"rt": 4.916810035705566, "stimuli": [3, 2], "response": 2, "block": "1_train_0", "correct": true}
+{"rt": 0.6537721157073975, "stimuli": [0, 1], "response": 0, "block": "1_train_0", "correct": true}
+{"rt": 1.9744880199432373, "stimuli": [2, 1], "response": 1, "block": "1_train_1", "correct": true}
+{"rt": 0.6213629245758057, "stimuli": [1, 0], "response": 0, "block": "1_train_1", "correct": true}
+{"rt": 1.8049960136413574, "stimuli": [3, 2], "response": 2, "block": "1_train_1", "correct": true}
+{"rt": 1.2705979347229004, "correct": true, "certainty": ["3", 1.271040916442871], "response": 1, "stimuli": [3, 1], "block": "1_test"}
+{"rt": 1.126296043395996, "correct": true, "certainty": ["3", 0.6975979804992676], "response": 1, "stimuli": [1, 4], "block": "1_test"}
+{"rt": 1.5293078422546387, "correct": true, "certainty": ["3", 0.7254188060760498], "response": 2, "stimuli": [2, 4], "block": "1_test"}
+{"block_earnings": 360}
