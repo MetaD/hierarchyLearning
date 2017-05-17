@@ -28,7 +28,7 @@ for datafile in os.listdir(DATA_FOLDER):
 def write(csvname, data):
     with open(csvname, 'w') as outfile:
         writer = csv.writer(outfile, delimiter=',')
-        writer.writerow(['ID'] + ['block_' + str(i) for i in range(16)])
+        writer.writerow(['id'] + ['block_' + str(i) for i in range(16)])
         for line in data:
             writer.writerow(line)
 
