@@ -8,6 +8,7 @@ import os
 import json
 import random
 from psychopy import gui, visual, core, event, info
+from config import INSTR_TEST
 
 
 def show_form_dialog(items, validation_func=None, reset_after_error=True, title='', order=(), tip=None):
@@ -128,7 +129,10 @@ class Presenter:
         else:
             next_instr_stim = None
         for instr in instructions:
-            instr_stim = visual.TextStim(self.window, text=instr, pos=position)
+            if instr is INSTR_TEST[1]:
+                instr_stim = visual.TextStim(self.window, text=instr, pos=position, wrapWidth=1.5)  # TODO
+            else:
+                instr_stim = visual.TextStim(self.window, text=instr, pos=position)
             self.draw_stimuli_for_response([instr_stim, next_instr_stim] + list(other_stim), [key_to_continue])
 
     def show_fixation(self, duration):
