@@ -153,7 +153,7 @@ class Presenter:
         return response
 
     def show_instructions(self, instructions, position=(0, 0), other_stim=(), key_to_continue='space',
-                          next_instr_text='Press space to continue', next_instr_pos=(0.0, -0.8), duration=None,
+                          next_page_text='Press space to continue', next_page_pos=(0.0, -0.8), duration=None,
                           wait_trigger=False):
         """
         Show a list of instructions strings
@@ -161,23 +161,23 @@ class Presenter:
         :param position: a tuple (x, y) position for the instruction text
         :param other_stim: a list of other psychopy.visual stimuli to be displayed on each page of instructions
         :param key_to_continue: a string of the key to press
-        :param next_instr_text: a string to show together with each page of instruction, could be None
+        :param next_page_text: a string to show together with each page of instruction, could be None
         :param next_instr_pos: a tuple of floats, position for the above string
         :param duration: (float or integer) if specified, the instructions will be shown for a maximum length of this
                          number of seconds (or triggers if using a scanner)
         """
         if type(instructions) is str:
             instructions = [instructions]
-        if next_instr_text is not None:
-            next_instr_stim = visual.TextStim(self.window, text=next_instr_text, pos=next_instr_pos)
+        if next_page_text is not None:
+            next_page_stim = visual.TextStim(self.window, text=next_page_text, pos=next_page_pos)
         else:
-            next_instr_stim = None
+            next_page_stim = None
         self.logger.info('Showing instructions')
         for i, instr in enumerate(instructions):
-            instr_stim = visual.TextStim(self.window, text=instr, pos=position)
+            instr_stim = visual.TextStim(self.window, text=instr, pos=position, wrapWidth=1.5)
             log_text = 'Instruction: ' + instr[:30].replace('\n', ' ')
             self.logger.info(log_text + '...' if len(instr) >= 30 else log_text)
-            self.draw_stimuli_for_response([instr_stim, next_instr_stim] + list(other_stim), [key_to_continue],
+            self.draw_stimuli_for_response([instr_stim, next_page_stim] + list(other_stim), [key_to_continue],
                                            max_wait=duration, wait_trigger=wait_trigger)
         self.logger.info('End of instructions')
 
