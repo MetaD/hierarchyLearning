@@ -39,8 +39,6 @@ INSTR_TEST = ['Get ready for Test trials',
               '(compared to the Training Trials) in terms of how much power they have - here you\'ll have to use ' +
               'your judgement to choose the correct one.\n\n' +
               'Press F or J to choose the person who you think has more power.\n\n' +
-              'Feedback is not provided in test trials, however, your responses count just as training trials for ' +
-              'computing your final score.\n\n' +
               'If you respond correctly, you\'ll win ' + str(TEST_POINTS) + ' points. ' +
               'If you respond incorrectly, you\'ll lose ' + str(TEST_POINTS) + ' points.',
               'You will also be asked to rate your confidence in your choices during test trials on a scale of 1-3:\n' +
