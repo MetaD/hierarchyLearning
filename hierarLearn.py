@@ -1,33 +1,33 @@
 #!/usr/bin/env python
 
-from utilities import *
+from psychopy_util import *
 from config import *
 
 
-def show_one_trial(images, indexes, feedback, rating):
+def show_one_trial(images, indexes, score, feedback, rating):
     presenter.show_fixation(1)
-    i = indexes[0]
-    j = indexes[1]
-    # define correctness
-    def correctness(selection):
-        return selection <= i and selection <= j  # responded the smaller index == higher status
-    # feedback
-    if feedback:
-        feedback_stims = (visual.TextStim(presenter.window, text=FEEDBACK_WRONG, color=FEEDBACK_RED),
-                          visual.TextStim(presenter.window, text=FEEDBACK_RIGHT, color=FEEDBACK_GREEN))
-        # display, respond & feedback
-        trial_info = presenter.select_from_two_stimuli(images[i], i, images[j], j, post_selection_time=0,
-                                                       highlight=highlight, correctness_func=correctness,
-                                                       feedback_stims=feedback_stims, feedback_time=FEEDBACK_TIME)
-    else:
-        # display & respond
-        trial_info = presenter.select_from_two_stimuli(images[i], i, images[j], j,
-                                                       post_selection_time=POST_SELECTION_TIME, highlight=highlight)
-        trial_info['correct'] = correctness(trial_info['response'])
+    i, j = indexes
+    if random.randrange(2) == 0:
+        i, j = j, i
+    images[i].pos = presenter.LEFT_CENTRAL_POS
+    images[j].pos = presenter.RIGHT_CENTRAL_POS
+    # show images and get response
+    stimuli = [images[i], images[j]]
+    trial_info = presenter.select_from_stimuli(stimuli, (i, j), ('f', 'j'),
+                                               post_selection_time=POST_SELECTION_TIME, highlight=highlight)
+    selection = trial_info['response']
+    trial_info['correct'] = selection <= i and selection <= j  # responded the smaller index == higher status
     # rating
     if rating:
         certainty = presenter.likert_scale(LIKERT_SCALE_QUESTION, num_options=3, option_labels=LIKERT_SCALE_LABELS)
         trial_info['certainty'] = certainty
+    # feedback
+    if feedback:
+        if trial_info['correct']:
+            stimuli.append(visual.TextStim(presenter.window, text=FEEDBACK_RIGHT.format(score), color=FEEDBACK_GREEN))
+        else:
+            stimuli.append(visual.TextStim(presenter.window, text=FEEDBACK_WRONG.format(score), color=FEEDBACK_RED))
+        presenter.draw_stimuli_for_duration(stimuli, FEEDBACK_TIME)
 
     return trial_info
 
@@ -40,7 +40,7 @@ def show_one_block(block_i):
     for t in range(NUM_CYCLES_PER_BLOCK_TRAIN):
         random.shuffle(TRAIN_PAIRS)
         for pair in TRAIN_PAIRS:
-            data = show_one_trial(images, pair, feedback=True, rating=False)
+            data = show_one_trial(images, pair, score=TRAIN_POINTS, feedback=True, rating=False)
             data['block'] = str(block_i) + '_train_' + str(t)
             dataLogger.write_data(data)
             points += (1 if data['correct'] else -1) * TRAIN_POINTS
@@ -49,8 +49,9 @@ def show_one_block(block_i):
     # test
     presenter.show_instructions(INSTR_TEST)
     for t in range(NUM_CYCLES_PER_BLOCK_TEST):
+        random.shuffle(TEST_PAIRS)
         for pair in TEST_PAIRS:
-            data = show_one_trial(images, pair, feedback=False, rating=True)
+            data = show_one_trial(images, pair, score=TEST_POINTS, feedback=True, rating=True)
             data['block'] = str(block_i) + '_test'
             dataLogger.write_data(data)
             points += (1 if data['correct'] else -1) * TEST_POINTS

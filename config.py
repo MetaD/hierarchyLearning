@@ -49,8 +49,8 @@ INSTR_TEST = ['Get ready for Test trials',
               '3 = You\'re more than 90% certain\n\n' +
               'Your confidence ratings will not affect your final score, but try to answer as accurately as possible.']
 
-FEEDBACK_RIGHT = '+ ' + str(TRAIN_POINTS) + ' points'
-FEEDBACK_WRONG = '- ' + str(TRAIN_POINTS) + ' points'
+FEEDBACK_RIGHT = '+ {} points'
+FEEDBACK_WRONG = '- {} points'
 
 LIKERT_SCALE_QUESTION = 'Please rate your confidence'
 LIKERT_SCALE_LABELS = ('Guessing entirely', 'Not sure but have some idea', '90%-100% certain')
