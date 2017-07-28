@@ -162,7 +162,7 @@ class Presenter:
         :param other_stim: a list of other psychopy.visual stimuli to be displayed on each page of instructions
         :param key_to_continue: a string of the key to press
         :param next_page_text: a string to show together with each page of instruction, could be None
-        :param next_instr_pos: a tuple of floats, position for the above string
+        :param next_page_pos: a tuple of floats, position for the above string
         :param duration: (float or integer) if specified, the instructions will be shown for a maximum length of this
                          number of seconds (or triggers if using a scanner)
         """
