@@ -1,0 +1,303 @@
+{"Gender": "Male", "Age": "20", "ID": "99", "Mode": "Exp"}
+{"psychopyVersion": "1.85.2", "systemRebooted": "Aug 23 19:28", "systemUserID": 501, "windowRefreshTimeMedian_ms": 16.688982645670574, "systemTimeNumpySD1000000_sec": 0.006006956100463867, "systemUserProcFlagged": [["mdworker", "1467"], ["mdworker", "1546"], ["mdworker", "1551"], ["mdworker", "1552"]], "systemSec.OpenSSLVersion": "OpenSSL 0.9.8zh 14 Jan 2016", "systemUser": "lab", "systemHaveInternetAccess": true, "systemMemFreeRAM": 4983.703125, "psychopyHaveExtRush": true, "systemUserProcCount": 86, "windowRefreshTimeAvg_ms": 16.685643438565528, "systemLocale": "C", "systemPyoVersion": "0.8.6", "systemPyo.OutputDevices": {"1": {"host api index": 0, "latency": 0.00972789153456688, "default sr": 44100, "name": "Built-in Output"}}, "systemPlatform": "darwin 10.11.6 x86_64", "experimentRunTime": "2017_08_25 14:21 (Year_Month_Day Hour:Min)", "windowRefreshTimeSD_ms": 0.03633257023022321, "experimentScript.directory": "/Users/lab/Desktop/Learning", "systemPyo.InputDevices": {"0": {"host api index": 0, "latency": 0.0029931971803307533, "default sr": 44100, "name": "Built-in Microph"}}, "systemSec.pythonSSL": true, "experimentRunTime.epoch": 1503696103, "experimentScript": "hierarLearn.py", "experimentScript.digestSHA1": "b2365245654f4a60ce45b8719fcc58b2559c7235", "systemUsersCount": 1, "pythonVersion": "2.7.12", "systemMemTotalRAM": 8192.0, "systemHostName": "Labs-iMac.local"}
+{"0": "img/M1.jpg", "1": "img/M3.jpg", "2": "img/M5.jpg", "3": "img/M6.jpg", "4": "img/M9.jpg", "5": "img/M7.jpg", "6": "img/M8.jpg", "7": "img/M2.jpg", "8": "img/M4.jpg"}
+{"rt": 2.6167969703674316, "response": 4, "block": "0_train_0", "correct": false}
+{"rt": 5.216880798339844, "response": 2, "block": "0_train_0", "correct": false}
+{"rt": 2.22802996635437, "response": 0, "block": "0_train_0", "correct": true}
+{"rt": 2.530879020690918, "response": 7, "block": "0_train_0", "correct": true}
+{"rt": 2.3893990516662598, "response": 6, "block": "0_train_0", "correct": false}
+{"rt": 3.9893970489501953, "response": 3, "block": "0_train_0", "correct": false}
+{"rt": 2.1880621910095215, "response": 7, "block": "0_train_0", "correct": false}
+{"rt": 3.1719508171081543, "response": 5, "block": "0_train_0", "correct": false}
+{"rt": 1.4515411853790283, "response": 7, "block": "0_train_1", "correct": true}
+{"rt": 3.1299898624420166, "response": 4, "block": "0_train_1", "correct": true}
+{"rt": 1.4837520122528076, "response": 3, "block": "0_train_1", "correct": true}
+{"rt": 4.184749126434326, "response": 2, "block": "0_train_1", "correct": false}
+{"rt": 2.6314709186553955, "response": 6, "block": "0_train_1", "correct": true}
+{"rt": 2.589722156524658, "response": 0, "block": "0_train_1", "correct": true}
+{"rt": 5.461716175079346, "response": 2, "block": "0_train_1", "correct": true}
+{"rt": 1.4715709686279297, "response": 6, "block": "0_train_1", "correct": false}
+{"rt": 1.4828300476074219, "certainty": ["2", 2.5857369899749756], "response": 3, "block": "0_test", "correct": false}
+{"rt": 3.1397061347961426, "certainty": ["3", 1.9190959930419922], "response": 6, "block": "0_test", "correct": false}
+{"rt": 3.8598029613494873, "certainty": ["3", 1.0657949447631836], "response": 6, "block": "0_test", "correct": false}
+{"rt": 5.721240997314453, "certainty": ["1", 1.0029761791229248], "response": 5, "block": "0_test", "correct": false}
+{"rt": 1.1811769008636475, "certainty": ["2", 0.2737140655517578], "response": 2, "block": "0_test", "correct": true}
+{"rt": 3.002495050430298, "certainty": ["2", 0.6194460391998291], "response": 3, "block": "0_test", "correct": true}
+{"rt": 4.72570013999939, "certainty": ["2", 0.29607105255126953], "response": 4, "block": "0_test", "correct": false}
+{"rt": 2.2633650302886963, "certainty": ["3", 0.7671082019805908], "response": 7, "block": "0_test", "correct": false}
+{"block_earnings": -400}
+{"rt": 1.1768178939819336, "response": 7, "block": "1_train_0", "correct": false}
+{"rt": 14.163284063339233, "response": 3, "block": "1_train_0", "correct": false}
+{"rt": 5.008235931396484, "response": 5, "block": "1_train_0", "correct": true}
+{"rt": 7.300652980804443, "response": 1, "block": "1_train_0", "correct": false}
+{"rt": 2.8363349437713623, "response": 4, "block": "1_train_0", "correct": true}
+{"rt": 2.552870988845825, "response": 2, "block": "1_train_0", "correct": false}
+{"rt": 1.257843017578125, "response": 3, "block": "1_train_0", "correct": true}
+{"rt": 1.208371877670288, "response": 7, "block": "1_train_0", "correct": true}
+{"rt": 2.104933977127075, "response": 3, "block": "1_train_1", "correct": false}
+{"rt": 1.412597894668579, "response": 7, "block": "1_train_1", "correct": true}
+{"rt": 14.82912802696228, "response": 3, "block": "1_train_1", "correct": true}
+{"rt": 5.574767827987671, "response": 7, "block": "1_train_1", "correct": false}
+{"rt": 4.499862909317017, "response": 5, "block": "1_train_1", "correct": true}
+{"rt": 6.141495943069458, "response": 1, "block": "1_train_1", "correct": false}
+{"rt": 6.268289089202881, "response": 1, "block": "1_train_1", "correct": true}
+{"rt": 2.6763951778411865, "response": 4, "block": "1_train_1", "correct": true}
+{"rt": 7.254242181777954, "certainty": ["2", 0.7531538009643555], "response": 4, "block": "1_test", "correct": false}
+{"rt": 4.894059896469116, "certainty": ["1", 0.8490660190582275], "response": 2, "block": "1_test", "correct": true}
+{"rt": 5.7381908893585205, "certainty": ["1", 0.1866600513458252], "response": 3, "block": "1_test", "correct": true}
+{"rt": 1.9439561367034912, "certainty": ["1", 0.0916750431060791], "response": 3, "block": "1_test", "correct": true}
+{"rt": 6.5718419551849365, "certainty": ["1", 0.8741419315338135], "response": 7, "block": "1_test", "correct": false}
+{"rt": 6.794529914855957, "certainty": ["1", 0.07961916923522949], "response": 1, "block": "1_test", "correct": true}
+{"rt": 2.1519649028778076, "certainty": ["1", 0.7556521892547607], "response": 4, "block": "1_test", "correct": true}
+{"rt": 2.768554925918579, "certainty": ["1", 0.21905994415283203], "response": 1, "block": "1_test", "correct": true}
+{"block_earnings": 420}
+{"rt": 2.785040855407715, "response": 7, "block": "2_train_0", "correct": false}
+{"rt": 2.4646050930023193, "response": 2, "block": "2_train_0", "correct": true}
+{"rt": 1.933807134628296, "response": 6, "block": "2_train_0", "correct": false}
+{"rt": 3.1522700786590576, "response": 4, "block": "2_train_0", "correct": true}
+{"rt": 1.9687659740447998, "response": 7, "block": "2_train_0", "correct": true}
+{"rt": 1.7059669494628906, "response": 1, "block": "2_train_0", "correct": true}
+{"rt": 1.6779239177703857, "response": 3, "block": "2_train_0", "correct": true}
+{"rt": 3.7633168697357178, "response": 1, "block": "2_train_0", "correct": false}
+{"rt": 1.0031490325927734, "response": 0, "block": "2_train_1", "correct": true}
+{"rt": 1.1960179805755615, "response": 7, "block": "2_train_1", "correct": true}
+{"rt": 4.765293121337891, "response": 3, "block": "2_train_1", "correct": true}
+{"rt": 1.4999730587005615, "response": 6, "block": "2_train_1", "correct": false}
+{"rt": 3.2167980670928955, "response": 2, "block": "2_train_1", "correct": true}
+{"rt": 1.1027672290802002, "response": 1, "block": "2_train_1", "correct": true}
+{"rt": 1.6115329265594482, "response": 4, "block": "2_train_1", "correct": true}
+{"rt": 2.379672050476074, "response": 7, "block": "2_train_1", "correct": false}
+{"rt": 4.258082866668701, "certainty": ["3", 1.2315490245819092], "response": 1, "block": "2_test", "correct": true}
+{"rt": 10.64863395690918, "certainty": ["1", 0.2877020835876465], "response": 2, "block": "2_test", "correct": true}
+{"rt": 3.663723945617676, "certainty": ["1", 0.26186490058898926], "response": 5, "block": "2_test", "correct": false}
+{"rt": 2.062570095062256, "certainty": ["1", 0.26270508766174316], "response": 1, "block": "2_test", "correct": true}
+{"rt": 5.015182971954346, "certainty": ["2", 0.3738820552825928], "response": 4, "block": "2_test", "correct": true}
+{"rt": 2.074582099914551, "certainty": ["2", 0.649791955947876], "response": 3, "block": "2_test", "correct": true}
+{"rt": 1.8588531017303467, "certainty": ["2", 0.4428439140319824], "response": 7, "block": "2_test", "correct": false}
+{"rt": 5.34893798828125, "certainty": ["1", 0.2694830894470215], "response": 3, "block": "2_test", "correct": true}
+{"block_earnings": 460}
+{"rt": 1.141618013381958, "response": 7, "block": "3_train_0", "correct": true}
+{"rt": 1.0329170227050781, "response": 5, "block": "3_train_0", "correct": true}
+{"rt": 1.5520050525665283, "response": 3, "block": "3_train_0", "correct": true}
+{"rt": 3.6586289405822754, "response": 0, "block": "3_train_0", "correct": true}
+{"rt": 3.8065500259399414, "response": 7, "block": "3_train_0", "correct": false}
+{"rt": 1.4842851161956787, "response": 4, "block": "3_train_0", "correct": true}
+{"rt": 3.609226942062378, "response": 2, "block": "3_train_0", "correct": true}
+{"rt": 1.8712129592895508, "response": 1, "block": "3_train_0", "correct": true}
+{"rt": 1.108510971069336, "response": 7, "block": "3_train_1", "correct": true}
+{"rt": 2.001246929168701, "response": 6, "block": "3_train_1", "correct": true}
+{"rt": 1.2889330387115479, "response": 4, "block": "3_train_1", "correct": true}
+{"rt": 1.7582058906555176, "response": 3, "block": "3_train_1", "correct": true}
+{"rt": 3.1842041015625, "response": 1, "block": "3_train_1", "correct": true}
+{"rt": 4.0559399127960205, "response": 5, "block": "3_train_1", "correct": true}
+{"rt": 3.099370002746582, "response": 0, "block": "3_train_1", "correct": true}
+{"rt": 3.5506229400634766, "response": 2, "block": "3_train_1", "correct": true}
+{"rt": 4.9315080642700195, "certainty": ["3", 1.3897039890289307], "response": 1, "block": "3_test", "correct": true}
+{"rt": 17.00050401687622, "certainty": ["1", 0.2747538089752197], "response": 5, "block": "3_test", "correct": false}
+{"rt": 7.555343866348267, "certainty": ["1", 0.18599486351013184], "response": 4, "block": "3_test", "correct": false}
+{"rt": 5.054126977920532, "certainty": ["1", 0.6343541145324707], "response": 3, "block": "3_test", "correct": true}
+{"rt": 6.284372091293335, "certainty": ["3", 1.3264551162719727], "response": 2, "block": "3_test", "correct": true}
+{"rt": 4.492556095123291, "certainty": ["1", 1.1365580558776855], "response": 5, "block": "3_test", "correct": false}
+{"rt": 5.4855029582977295, "certainty": ["1", 0.2011880874633789], "response": 7, "block": "3_test", "correct": false}
+{"rt": 2.132080078125, "certainty": ["2", 0.48167896270751953], "response": 4, "block": "3_test", "correct": true}
+{"block_earnings": 140}
+{"rt": 2.309072971343994, "response": 1, "block": "4_train_0", "correct": true}
+{"rt": 1.0803909301757812, "response": 7, "block": "4_train_0", "correct": true}
+{"rt": 9.254582166671753, "response": 4, "block": "4_train_0", "correct": true}
+{"rt": 2.181014060974121, "response": 2, "block": "4_train_0", "correct": true}
+{"rt": 6.66978907585144, "response": 0, "block": "4_train_0", "correct": true}
+{"rt": 8.958558082580566, "response": 6, "block": "4_train_0", "correct": false}
+{"rt": 2.9845340251922607, "response": 3, "block": "4_train_0", "correct": true}
+{"rt": 5.288995027542114, "response": 6, "block": "4_train_0", "correct": true}
+{"rt": 2.144634962081909, "response": 7, "block": "4_train_1", "correct": true}
+{"rt": 4.978905916213989, "response": 6, "block": "4_train_1", "correct": false}
+{"rt": 2.312678813934326, "response": 2, "block": "4_train_1", "correct": true}
+{"rt": 19.196047067642212, "response": 0, "block": "4_train_1", "correct": true}
+{"rt": 12.818234205245972, "response": 1, "block": "4_train_1", "correct": true}
+{"rt": 8.718039989471436, "response": 4, "block": "4_train_1", "correct": true}
+{"rt": 2.4667160511016846, "response": 4, "block": "4_train_1", "correct": false}
+{"rt": 1.2155201435089111, "response": 6, "block": "4_train_1", "correct": true}
+{"rt": 3.775391101837158, "certainty": ["1", 0.4483480453491211], "response": 3, "block": "4_test", "correct": true}
+{"rt": 18.090007066726685, "certainty": ["1", 0.4314570426940918], "response": 4, "block": "4_test", "correct": true}
+{"rt": 2.4093289375305176, "certainty": ["1", 0.994948148727417], "response": 3, "block": "4_test", "correct": true}
+{"rt": 6.58118200302124, "certainty": ["1", 0.8117828369140625], "response": 2, "block": "4_test", "correct": true}
+{"rt": 1.8460540771484375, "certainty": ["2", 5.110754013061523], "response": 4, "block": "4_test", "correct": true}
+{"rt": 6.1367878913879395, "certainty": ["1", 0.35359978675842285], "response": 1, "block": "4_test", "correct": true}
+{"rt": 10.422406911849976, "certainty": ["2", 0.7357480525970459], "response": 1, "block": "4_test", "correct": true}
+{"rt": 4.389137029647827, "certainty": ["2", 0.909264087677002], "response": 2, "block": "4_test", "correct": true}
+{"block_earnings": 900}
+{"rt": 2.702984094619751, "response": 0, "block": "5_train_0", "correct": true}
+{"rt": 5.281833171844482, "response": 1, "block": "5_train_0", "correct": true}
+{"rt": 5.619571924209595, "response": 3, "block": "5_train_0", "correct": true}
+{"rt": 0.9668529033660889, "response": 7, "block": "5_train_0", "correct": true}
+{"rt": 7.161372900009155, "response": 4, "block": "5_train_0", "correct": true}
+{"rt": 2.9493680000305176, "response": 2, "block": "5_train_0", "correct": true}
+{"rt": 1.2788591384887695, "response": 6, "block": "5_train_0", "correct": true}
+{"rt": 2.1005959510803223, "response": 5, "block": "5_train_0", "correct": true}
+{"rt": 9.280318975448608, "response": 2, "block": "5_train_1", "correct": true}
+{"rt": 3.6053760051727295, "response": 7, "block": "5_train_1", "correct": true}
+{"rt": 5.011269807815552, "response": 1, "block": "5_train_1", "correct": true}
+{"rt": 3.2717621326446533, "response": 3, "block": "5_train_1", "correct": true}
+{"rt": 1.8669629096984863, "response": 5, "block": "5_train_1", "correct": true}
+{"rt": 1.7366950511932373, "response": 0, "block": "5_train_1", "correct": true}
+{"rt": 1.5788438320159912, "response": 4, "block": "5_train_1", "correct": true}
+{"rt": 1.9247782230377197, "response": 6, "block": "5_train_1", "correct": true}
+{"rt": 1.525080919265747, "certainty": ["3", 1.3309698104858398], "response": 2, "block": "5_test", "correct": true}
+{"rt": 2.4319889545440674, "certainty": ["3", 0.5047287940979004], "response": 1, "block": "5_test", "correct": true}
+{"rt": 2.6558659076690674, "certainty": ["3", 0.24712085723876953], "response": 3, "block": "5_test", "correct": true}
+{"rt": 2.432659864425659, "certainty": ["3", 0.8750519752502441], "response": 4, "block": "5_test", "correct": true}
+{"rt": 2.5455799102783203, "certainty": ["3", 0.5495688915252686], "response": 3, "block": "5_test", "correct": true}
+{"rt": 2.8743069171905518, "certainty": ["3", 0.673130989074707], "response": 4, "block": "5_test", "correct": true}
+{"rt": 5.353302001953125, "certainty": ["3", 1.5302848815917969], "response": 1, "block": "5_test", "correct": true}
+{"rt": 1.7190709114074707, "certainty": ["3", 0.8206789493560791], "response": 2, "block": "5_test", "correct": true}
+{"block_earnings": 960}
+{"rt": 2.124983072280884, "response": 6, "block": "6_train_0", "correct": true}
+{"rt": 2.784024953842163, "response": 3, "block": "6_train_0", "correct": true}
+{"rt": 7.208462953567505, "response": 5, "block": "6_train_0", "correct": true}
+{"rt": 4.250201940536499, "response": 2, "block": "6_train_0", "correct": true}
+{"rt": 1.1264240741729736, "response": 7, "block": "6_train_0", "correct": true}
+{"rt": 1.1623311042785645, "response": 1, "block": "6_train_0", "correct": true}
+{"rt": 1.9728829860687256, "response": 0, "block": "6_train_0", "correct": true}
+{"rt": 2.3500800132751465, "response": 4, "block": "6_train_0", "correct": true}
+{"rt": 1.3120558261871338, "response": 2, "block": "6_train_1", "correct": true}
+{"rt": 1.7487518787384033, "response": 6, "block": "6_train_1", "correct": true}
+{"rt": 3.215229034423828, "response": 4, "block": "6_train_1", "correct": true}
+{"rt": 1.405547857284546, "response": 0, "block": "6_train_1", "correct": true}
+{"rt": 3.190100908279419, "response": 1, "block": "6_train_1", "correct": true}
+{"rt": 2.221163034439087, "response": 3, "block": "6_train_1", "correct": true}
+{"rt": 1.3079628944396973, "response": 7, "block": "6_train_1", "correct": true}
+{"rt": 2.2047929763793945, "response": 5, "block": "6_train_1", "correct": true}
+{"rt": 2.971033811569214, "certainty": ["3", 0.34926581382751465], "response": 2, "block": "6_test", "correct": true}
+{"rt": 3.986536979675293, "certainty": ["3", 0.4432389736175537], "response": 4, "block": "6_test", "correct": true}
+{"rt": 2.428842067718506, "certainty": ["3", 0.44577598571777344], "response": 2, "block": "6_test", "correct": true}
+{"rt": 1.8951029777526855, "certainty": ["3", 1.0857350826263428], "response": 4, "block": "6_test", "correct": true}
+{"rt": 1.4849741458892822, "certainty": ["3", 1.9960870742797852], "response": 3, "block": "6_test", "correct": true}
+{"rt": 3.773698091506958, "certainty": ["3", 0.9989688396453857], "response": 1, "block": "6_test", "correct": true}
+{"rt": 3.3377201557159424, "certainty": ["3", 0.31685614585876465], "response": 1, "block": "6_test", "correct": true}
+{"rt": 1.6516151428222656, "certainty": ["3", 0.6839618682861328], "response": 3, "block": "6_test", "correct": true}
+{"block_earnings": 960}
+{"rt": 5.408324956893921, "response": 1, "block": "7_train_0", "correct": true}
+{"rt": 0.8442580699920654, "response": 0, "block": "7_train_0", "correct": true}
+{"rt": 1.1400139331817627, "response": 2, "block": "7_train_0", "correct": true}
+{"rt": 1.751223087310791, "response": 3, "block": "7_train_0", "correct": true}
+{"rt": 1.4653220176696777, "response": 5, "block": "7_train_0", "correct": true}
+{"rt": 1.5751991271972656, "response": 6, "block": "7_train_0", "correct": true}
+{"rt": 0.8252170085906982, "response": 7, "block": "7_train_0", "correct": true}
+{"rt": 1.1297030448913574, "response": 4, "block": "7_train_0", "correct": true}
+{"rt": 1.1496059894561768, "response": 6, "block": "7_train_1", "correct": true}
+{"rt": 1.200268030166626, "response": 7, "block": "7_train_1", "correct": true}
+{"rt": 1.6249909400939941, "response": 5, "block": "7_train_1", "correct": true}
+{"rt": 0.9364008903503418, "response": 4, "block": "7_train_1", "correct": true}
+{"rt": 1.7236030101776123, "response": 2, "block": "7_train_1", "correct": true}
+{"rt": 0.9114289283752441, "response": 0, "block": "7_train_1", "correct": true}
+{"rt": 1.0284080505371094, "response": 3, "block": "7_train_1", "correct": true}
+{"rt": 1.684438943862915, "response": 1, "block": "7_train_1", "correct": true}
+{"rt": 1.7497739791870117, "certainty": ["3", 0.3219459056854248], "response": 1, "block": "7_test", "correct": true}
+{"rt": 1.208669900894165, "certainty": ["3", 0.3636350631713867], "response": 3, "block": "7_test", "correct": true}
+{"rt": 1.152221918106079, "certainty": ["3", 1.045072078704834], "response": 4, "block": "7_test", "correct": true}
+{"rt": 1.0936050415039062, "certainty": ["3", 0.4613759517669678], "response": 2, "block": "7_test", "correct": true}
+{"rt": 1.3020219802856445, "certainty": ["3", 0.35662078857421875], "response": 2, "block": "7_test", "correct": true}
+{"rt": 1.457913875579834, "certainty": ["3", 0.32454490661621094], "response": 3, "block": "7_test", "correct": true}
+{"rt": 1.5691790580749512, "certainty": ["3", 1.1489319801330566], "response": 4, "block": "7_test", "correct": true}
+{"rt": 1.465353012084961, "certainty": ["3", 0.7541310787200928], "response": 1, "block": "7_test", "correct": true}
+{"block_earnings": 960}
+{"rt": 1.0996661186218262, "response": 7, "block": "8_train_0", "correct": true}
+{"rt": 1.6481730937957764, "response": 5, "block": "8_train_0", "correct": true}
+{"rt": 1.5509560108184814, "response": 4, "block": "8_train_0", "correct": true}
+{"rt": 7.425216913223267, "response": 2, "block": "8_train_0", "correct": true}
+{"rt": 1.3062539100646973, "response": 0, "block": "8_train_0", "correct": true}
+{"rt": 1.894853115081787, "response": 3, "block": "8_train_0", "correct": true}
+{"rt": 1.595400094985962, "response": 1, "block": "8_train_0", "correct": true}
+{"rt": 2.3731908798217773, "response": 6, "block": "8_train_0", "correct": true}
+{"rt": 1.2768900394439697, "response": 3, "block": "8_train_1", "correct": true}
+{"rt": 1.1307158470153809, "response": 1, "block": "8_train_1", "correct": true}
+{"rt": 2.510810136795044, "response": 2, "block": "8_train_1", "correct": true}
+{"rt": 0.9298958778381348, "response": 7, "block": "8_train_1", "correct": true}
+{"rt": 0.7823269367218018, "response": 0, "block": "8_train_1", "correct": true}
+{"rt": 1.4160759449005127, "response": 6, "block": "8_train_1", "correct": true}
+{"rt": 1.223695993423462, "response": 5, "block": "8_train_1", "correct": true}
+{"rt": 1.191277027130127, "response": 4, "block": "8_train_1", "correct": true}
+{"rt": 1.286458969116211, "certainty": ["3", 0.32439398765563965], "response": 4, "block": "8_test", "correct": true}
+{"rt": 0.8757109642028809, "certainty": ["1", 2.1002461910247803], "response": 7, "block": "8_test", "correct": false}
+{"rt": 1.8254711627960205, "certainty": ["3", 0.603039026260376], "response": 2, "block": "8_test", "correct": true}
+{"rt": 3.1901779174804688, "certainty": ["3", 0.06341314315795898], "response": 1, "block": "8_test", "correct": true}
+{"rt": 1.1919970512390137, "certainty": ["3", 0.22796010971069336], "response": 3, "block": "8_test", "correct": true}
+{"rt": 1.277975082397461, "certainty": ["3", 0.5021700859069824], "response": 2, "block": "8_test", "correct": true}
+{"rt": 2.246066093444824, "certainty": ["3", 0.3656790256500244], "response": 1, "block": "8_test", "correct": true}
+{"rt": 2.6583070755004883, "certainty": ["3", 0.2096090316772461], "response": 3, "block": "8_test", "correct": true}
+{"block_earnings": 760}
+{"rt": 1.470324993133545, "response": 6, "block": "9_train_0", "correct": true}
+{"rt": 0.8039801120758057, "response": 7, "block": "9_train_0", "correct": true}
+{"rt": 1.613023042678833, "response": 4, "block": "9_train_0", "correct": true}
+{"rt": 1.3813579082489014, "response": 3, "block": "9_train_0", "correct": true}
+{"rt": 1.0946359634399414, "response": 1, "block": "9_train_0", "correct": true}
+{"rt": 2.380397081375122, "response": 5, "block": "9_train_0", "correct": true}
+{"rt": 0.7970778942108154, "response": 0, "block": "9_train_0", "correct": true}
+{"rt": 3.0548651218414307, "response": 2, "block": "9_train_0", "correct": true}
+{"rt": 0.7394449710845947, "response": 0, "block": "9_train_1", "correct": true}
+{"rt": 1.2312798500061035, "response": 1, "block": "9_train_1", "correct": true}
+{"rt": 0.7750949859619141, "response": 2, "block": "9_train_1", "correct": true}
+{"rt": 0.8576040267944336, "response": 7, "block": "9_train_1", "correct": true}
+{"rt": 2.136631965637207, "response": 3, "block": "9_train_1", "correct": true}
+{"rt": 1.2186460494995117, "response": 4, "block": "9_train_1", "correct": true}
+{"rt": 0.7707779407501221, "response": 7, "block": "9_train_1", "correct": false}
+{"rt": 1.2212779521942139, "response": 5, "block": "9_train_1", "correct": true}
+{"rt": 1.3407819271087646, "certainty": ["3", 0.24205493927001953], "response": 1, "block": "9_test", "correct": true}
+{"rt": 1.2683699131011963, "certainty": ["3", 0.21234893798828125], "response": 2, "block": "9_test", "correct": true}
+{"rt": 2.087352991104126, "certainty": ["3", 0.17367291450500488], "response": 4, "block": "9_test", "correct": true}
+{"rt": 1.0185201168060303, "certainty": ["3", 0.2210979461669922], "response": 1, "block": "9_test", "correct": true}
+{"rt": 1.7359230518341064, "certainty": ["3", 0.14061903953552246], "response": 3, "block": "9_test", "correct": true}
+{"rt": 1.043065071105957, "certainty": ["3", 0.33222103118896484], "response": 3, "block": "9_test", "correct": true}
+{"rt": 1.4107270240783691, "certainty": ["3", 0.5013909339904785], "response": 2, "block": "9_test", "correct": true}
+{"rt": 1.4284939765930176, "certainty": ["3", 0.35010695457458496], "response": 4, "block": "9_test", "correct": true}
+{"block_earnings": 940}
+{"rt": 2.8541829586029053, "response": 6, "block": "10_train_0", "correct": true}
+{"rt": 1.9150078296661377, "response": 1, "block": "10_train_0", "correct": true}
+{"rt": 1.0548269748687744, "response": 2, "block": "10_train_0", "correct": true}
+{"rt": 4.365640878677368, "response": 5, "block": "10_train_0", "correct": true}
+{"rt": 1.6767101287841797, "response": 7, "block": "10_train_0", "correct": true}
+{"rt": 1.074167013168335, "response": 0, "block": "10_train_0", "correct": true}
+{"rt": 4.016368865966797, "response": 3, "block": "10_train_0", "correct": true}
+{"rt": 1.205867052078247, "response": 4, "block": "10_train_0", "correct": true}
+{"rt": 1.0624539852142334, "response": 7, "block": "10_train_1", "correct": true}
+{"rt": 4.709326982498169, "response": 2, "block": "10_train_1", "correct": true}
+{"rt": 0.8701441287994385, "response": 3, "block": "10_train_1", "correct": true}
+{"rt": 1.8363959789276123, "response": 1, "block": "10_train_1", "correct": true}
+{"rt": 1.450908899307251, "response": 5, "block": "10_train_1", "correct": true}
+{"rt": 0.9696400165557861, "response": 4, "block": "10_train_1", "correct": true}
+{"rt": 1.011564016342163, "response": 6, "block": "10_train_1", "correct": true}
+{"rt": 0.8125259876251221, "response": 0, "block": "10_train_1", "correct": true}
+{"rt": 1.3810858726501465, "certainty": ["3", 0.8976631164550781], "response": 1, "block": "10_test", "correct": true}
+{"rt": 0.6882259845733643, "certainty": ["1", 2.9444329738616943], "response": 5, "block": "10_test", "correct": false}
+{"rt": 1.3074851036071777, "certainty": ["3", 0.25030517578125], "response": 3, "block": "10_test", "correct": true}
+{"rt": 1.4116911888122559, "certainty": ["2", 0.3903310298919678], "response": 1, "block": "10_test", "correct": true}
+{"rt": 2.362328052520752, "certainty": ["3", 0.18987202644348145], "response": 2, "block": "10_test", "correct": true}
+{"rt": 1.3860058784484863, "certainty": ["3", 0.3893289566040039], "response": 3, "block": "10_test", "correct": true}
+{"rt": 1.0413789749145508, "certainty": ["3", 0.4190070629119873], "response": 4, "block": "10_test", "correct": true}
+{"rt": 0.8856449127197266, "certainty": ["3", 0.44543886184692383], "response": 4, "block": "10_test", "correct": true}
+{"block_earnings": 760}
+{"rt": 1.8592100143432617, "response": 6, "block": "11_train_0", "correct": true}
+{"rt": 2.4090421199798584, "response": 2, "block": "11_train_0", "correct": true}
+{"rt": 1.072295904159546, "response": 4, "block": "11_train_0", "correct": true}
+{"rt": 1.0864531993865967, "response": 3, "block": "11_train_0", "correct": true}
+{"rt": 0.8358290195465088, "response": 7, "block": "11_train_0", "correct": true}
+{"rt": 2.3395190238952637, "response": 1, "block": "11_train_0", "correct": true}
+{"rt": 0.8775410652160645, "response": 0, "block": "11_train_0", "correct": true}
+{"rt": 1.8119380474090576, "response": 5, "block": "11_train_0", "correct": true}
+{"rt": 1.100517988204956, "response": 3, "block": "11_train_1", "correct": true}
+{"rt": 1.824531078338623, "response": 1, "block": "11_train_1", "correct": true}
+{"rt": 2.2559750080108643, "response": 4, "block": "11_train_1", "correct": true}
+{"rt": 1.685741901397705, "response": 6, "block": "11_train_1", "correct": true}
+{"rt": 1.371182918548584, "response": 5, "block": "11_train_1", "correct": true}
+{"rt": 0.89186692237854, "response": 7, "block": "11_train_1", "correct": true}
+{"rt": 1.00164794921875, "response": 0, "block": "11_train_1", "correct": true}
+{"rt": 1.2979509830474854, "response": 2, "block": "11_train_1", "correct": true}
+{"rt": 1.2710437774658203, "certainty": ["3", 0.2226700782775879], "response": 3, "block": "11_test", "correct": true}
+{"rt": 1.0738909244537354, "certainty": ["3", 0.5952730178833008], "response": 4, "block": "11_test", "correct": true}
+{"rt": 1.0293159484863281, "certainty": ["3", 0.9996449947357178], "response": 2, "block": "11_test", "correct": true}
+{"rt": 1.05029296875, "certainty": ["3", 0.19530487060546875], "response": 4, "block": "11_test", "correct": true}
+{"rt": 1.2707469463348389, "certainty": ["3", 0.35199403762817383], "response": 2, "block": "11_test", "correct": true}
+{"rt": 1.4921600818634033, "certainty": ["3", 0.9634251594543457], "response": 1, "block": "11_test", "correct": true}
+{"rt": 1.151487112045288, "certainty": ["3", 0.42030906677246094], "response": 1, "block": "11_test", "correct": true}
+{"rt": 1.0229110717773438, "certainty": ["3", 0.2653388977050781], "response": 3, "block": "11_test", "correct": true}
+{"block_earnings": 960}
