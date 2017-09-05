@@ -8,7 +8,7 @@ from config import *
 
 def press_select(img_indexes):
     # choose
-    choose = visual.TextStim(presenter.window, 'Press ' + RESPONSE_KEY + ' to choose one of the two people')
+    choose = visual.TextStim(presenter.window, INSTR_PRESS)
     presenter.draw_stimuli_for_duration(choose)
     start_time = core.getTime()
     # get a key press
@@ -17,11 +17,14 @@ def press_select(img_indexes):
     data = {'stimuli': img_indexes, 'num_img_shown': 0, 'key_press_time': press.time - start_time}
     # start the choosing loop
     while True:
-        data['num_img_shown'] += 1
         for i in img_indexes:
+            data['num_img_shown'] += 1
             for t in range(NUM_REFRESHS_PER_IMG):
-                rect = visual.Rect(presenter.window, lineWidth=0, fillColor='#fff', size=(2, 2.5), opacity=0.05 * t)
-                presenter.draw_stimuli_for_duration([rect, images[i]])
+                fraction = float(1 + t) / NUM_REFRESHS_PER_IMG
+                radius = fraction * (CIRCLE_RADIUS - IMG_HALF_SIDE) + IMG_HALF_SIDE
+                circle = visual.Circle(presenter.window, units='pix', lineWidth=0, fillColor='#808080',
+                                       edges=CIRCLE_EDGES, radius=radius, opacity=fraction)
+                presenter.draw_stimuli_for_duration([circle_bg, circle, images[i]])
                 releases = keyboard.getReleases(chars=[RESPONSE_CHAR])
                 if len(releases) > 0:
                     data['response'] = i
@@ -52,10 +55,10 @@ def show_one_trial(indexes, score, feedback, rating):
         feedback_stim.height = 0.13
         presenter.draw_stimuli_for_duration([selected_stim, highlight, feedback_stim], FEEDBACK_TIME)
         # reinforcement
-        words = ['MORE', 'LESS'] if i < j else ['LESS', 'MORE']
-        presenter.show_instructions(INSTR_REINFORCE[0] + words[0] + INSTR_REINFORCE[1], position=TOP_INSTR_POSITION,
+        words = ['FUL', 'LESS'] if i < j else ['LESS', 'FUL']
+        presenter.show_instructions(INSTR_REINFORCE + words[0], position=TOP_INSTR_POSITION,
                                     other_stim=[images[i]], next_key=NEXT_PAGE_KEY)
-        presenter.show_instructions(INSTR_REINFORCE[0] + words[1] + INSTR_REINFORCE[1], position=TOP_INSTR_POSITION,
+        presenter.show_instructions(INSTR_REINFORCE + words[1], position=TOP_INSTR_POSITION,
                                     other_stim=[images[j]], next_key=NEXT_PAGE_KEY)
     else:
         presenter.draw_stimuli_for_duration([selected_stim, highlight], FEEDBACK_TIME)
@@ -63,7 +66,7 @@ def show_one_trial(indexes, score, feedback, rating):
     if rating:
         certainty = presenter.likert_scale(LIKERT_SCALE_QUESTION, num_options=3, option_labels=LIKERT_SCALE_LABELS)
         data['certainty'] = certainty
-
+    print data
     return data
 
 
@@ -136,6 +139,9 @@ if __name__ == '__main__':
     random.shuffle(images)  # status high -> low
     dataLogger.write_data({i: stim._imName for i, stim in enumerate(images)})
     random.seed(time.time())
+    # background circle
+    circle_bg = visual.Circle(presenter.window, units='pix', fillColor='#fff', radius=CIRCLE_RADIUS,
+                              edges=CIRCLE_EDGES)
 
     # experiment starts
     presenter.show_instructions(INSTR_1, next_key=NEXT_PAGE_KEY)

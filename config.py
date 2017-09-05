@@ -15,7 +15,7 @@ FIXATION_TIME = 1
 FIRST_IMG_TIME = 1.5
 IMG_INTERVAL = 0.05
 SECOND_IMG_TIME = 1.5
-IMG_OPTION_TIME = 1.5
+IMG_OPTION_TIME = 1
 NUM_REFRESHS_PER_IMG = 20
 FEEDBACK_TIME = 1
 # Colors
@@ -27,6 +27,9 @@ RESPONSE_CHAR = ' '     # changed this together with the line above
 NEXT_PAGE_KEY = 'n'
 FEEDBACK_POSITION = (0, -0.5)
 TOP_INSTR_POSITION = (0, 0.7)
+CIRCLE_RADIUS = 250  # in pixel
+CIRCLE_EDGES = 128
+IMG_HALF_SIDE = 150  # in pixel
 # Strings
 INSTR_1 = ['We\'re interested in individual differences in how people learn about social information.',
            'You\'re going to see pictures we\'ve taken of 9 different individuals who are all members of an ' +
@@ -55,11 +58,12 @@ INSTR_TEST = ['Get ready for Test trials',
               '2 = You have some idea but are not sure\n' +
               '3 = You\'re more than 90% certain\n\n' +
               'Your confidence ratings will not affect your final score, but try to answer as accurately as possible.']
+INSTR_PRESS = 'Short press or long press ' + RESPONSE_KEY + ' to choose one of the two people'
 
 FEEDBACK_RIGHT = '+ {} points'
 FEEDBACK_WRONG = '- {} points'
 
-INSTR_REINFORCE = ['In this pair, the person below is ', ' powerful.']
+INSTR_REINFORCE = 'In this pair, the person below is relatively POWER'
 
 LIKERT_SCALE_QUESTION = 'Please rate your confidence'
 LIKERT_SCALE_LABELS = ('Guessing entirely', 'Not sure but have some idea', '90%-100% certain')
