@@ -14,7 +14,7 @@ def press_select(img_indexes):
     # get a key press
     io.clearEvents('all')
     press = keyboard.waitForPresses(chars=[RESPONSE_CHAR])[0]
-    data = {'stimuli': img_indexes, 'num_img_shown': 0, 'key_press_time': press.time - start_time}
+    data = {'stimuli': img_indexes, 'num_img_shown': 0, 'rt': press.time - start_time}
     # start the choosing loop
     while True:
         for i in img_indexes:
