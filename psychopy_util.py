@@ -96,10 +96,11 @@ class Presenter:
         logging.info(img_extension + ' images loaded from ' + img_path)
         return img_stims
 
-    def draw_stimuli_for_duration(self, stimuli, duration, wait_trigger=False):
+    def draw_stimuli_for_duration(self, stimuli, duration=None, wait_trigger=False):
         """
-        Display the given stimuli for a given duration. If serial was specified at initialization, the stimuli will be
-        displayed until a trigger is received
+        Display the given stimuli for a given duration.
+        If duration is None (which is the default value), it just shows the stimuli and returns.
+
         :param stimuli: either a psychopy.visual stimulus or a list of them to draw
         :param duration: a float time duration in seconds, or if waiting for a scanner trigger, an integer number of
                          triggers to wait for
@@ -173,10 +174,9 @@ class Presenter:
             next_page_stim = visual.TextStim(self.window, text=text, pos=next_page_pos)
         else:
             next_page_stim = None
-        self.logger.info('Showing instructions')
         for i, instr in enumerate(instructions):
             instr_stim = visual.TextStim(self.window, text=instr, pos=position, wrapWidth=1.5)
-            log_text = 'Instruction: ' + instr[:30].replace('\n', ' ')
+            log_text = 'Showing instruction: ' + instr[:30].replace('\n', ' ')
             self.logger.info(log_text + '...' if len(instr) >= 30 else log_text)
             self.draw_stimuli_for_response([instr_stim, next_page_stim] + list(other_stim), [next_key],
                                            max_wait=duration, wait_trigger=wait_trigger)

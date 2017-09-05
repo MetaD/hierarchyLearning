@@ -15,13 +15,15 @@ FIXATION_TIME = 1
 FIRST_IMG_TIME = 1.5
 IMG_INTERVAL = 0.05
 SECOND_IMG_TIME = 1.5
-MAX_WAIT_TIME = 3.5
+IMG_OPTION_TIME = 1.5
+NUM_REFRESHS_PER_IMG = 20
 FEEDBACK_TIME = 1
 # Colors
 FEEDBACK_RED = '#FF0000'
 FEEDBACK_GREEN = '#84ff84'
 # Other stuff
-IMG_RESPONSE_KEY = 'space'
+RESPONSE_KEY = 'space'  # changed this together with the line below
+RESPONSE_CHAR = ' '     # changed this together with the line above
 NEXT_PAGE_KEY = 'n'
 FEEDBACK_POSITION = (0, -0.5)
 TOP_INSTR_POSITION = (0, 0.7)

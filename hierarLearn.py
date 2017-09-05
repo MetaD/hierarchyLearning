@@ -1,32 +1,36 @@
 #!/usr/bin/env python
 
 import time
-from psychopy.iohub import launchHubServer
+from psychopy import iohub
 from psychopy_util import *
 from config import *
 
 
-def press_select(img_indexs):
+def press_select(img_indexes):
     # choose
-    choose = visual.TextStim(presenter.window, 'Press ' + IMG_RESPONSE_KEY + ' to choose one of the two people')
-    choose.draw()
-    presenter.window.flip()
-    data = {'stimuli': img_indexs, 'num_img_shown': 0}
-    # get key press
-    keyboard.getPresses()
+    choose = visual.TextStim(presenter.window, 'Press ' + RESPONSE_KEY + ' to choose one of the two people')
+    presenter.draw_stimuli_for_duration(choose)
+    start_time = core.getTime()
+    # get a key press
+    io.clearEvents('all')
+    press = keyboard.waitForPresses(chars=[RESPONSE_CHAR])[0]
+    data = {'stimuli': img_indexes, 'num_img_shown': 0, 'key_press_time': press.time - start_time}
     # start the choosing loop
     while True:
-        response = presenter.draw_stimuli_for_response(choose, IMG_RESPONSE_KEYS, max_wait=MAX_WAIT_TIME)
-        if response is None:
-            data['num_img_shown'] += 1
-        else:
-            print response
-            data.update(response)
-            break
-    return data
+        data['num_img_shown'] += 1
+        for i in img_indexes:
+            for t in range(NUM_REFRESHS_PER_IMG):
+                rect = visual.Rect(presenter.window, lineWidth=0, fillColor='#fff', size=(2, 2.5), opacity=0.05 * t)
+                presenter.draw_stimuli_for_duration([rect, images[i]])
+                releases = keyboard.getReleases(chars=[RESPONSE_CHAR])
+                if len(releases) > 0:
+                    data['response'] = i
+                    data['key_press_duration'] = releases[0].duration
+                    return data
+                time.sleep(float(IMG_OPTION_TIME) / NUM_REFRESHS_PER_IMG)
 
 
-def show_one_trial(images, indexes, score, feedback, rating):
+def show_one_trial(indexes, score, feedback, rating):
     # randomize order
     indexes = list(indexes)
     random.shuffle(indexes)
@@ -36,10 +40,10 @@ def show_one_trial(images, indexes, score, feedback, rating):
     presenter.draw_stimuli_for_duration(images[i], FIRST_IMG_TIME)
     presenter.show_blank_screen(IMG_INTERVAL)
     presenter.draw_stimuli_for_duration(images[j], SECOND_IMG_TIME)
-    data = press_select(img_indexs=(i, j))
+    data = press_select(img_indexes=(i, j))
     # feedback
-    selected_stim = images[i] if data['response'] == IMG_RESPONSE_KEYS[0] else images[j]
-    correct = i < j if data['response'] == IMG_RESPONSE_KEYS[0] else j < i
+    selected_stim = images[data['response']]
+    correct = data['response'] <= i and data['response'] <= j
     data['correct'] = correct
     if feedback:
         feedback_stim = visual.TextStim(presenter.window, text=FEEDBACK_RIGHT.format(score), color=FEEDBACK_GREEN) if correct else \
@@ -71,7 +75,7 @@ def show_one_block(block_i):
     for t in range(NUM_CYCLES_PER_BLOCK_TRAIN):
         random.shuffle(TRAIN_PAIRS)
         for pair in TRAIN_PAIRS:
-            data = show_one_trial(images, pair, score=TRAIN_POINTS, feedback=True, rating=False)
+            data = show_one_trial(pair, score=TRAIN_POINTS, feedback=True, rating=False)
             data['block'] = str(block_i) + '_train_' + str(t)
             dataLogger.write_data(data)
             points += (1 if data['correct'] else -1) * TRAIN_POINTS
@@ -82,7 +86,7 @@ def show_one_block(block_i):
     for t in range(NUM_CYCLES_PER_BLOCK_TEST):
         random.shuffle(TEST_PAIRS)
         for pair in TEST_PAIRS:
-            data = show_one_trial(images, pair, score=TEST_POINTS, feedback=True, rating=True)
+            data = show_one_trial(pair, score=TEST_POINTS, feedback=True, rating=True)
             data['block'] = str(block_i) + '_test'
             dataLogger.write_data(data)
             points += (1 if data['correct'] else -1) * TEST_POINTS
@@ -107,7 +111,7 @@ def validation(items):
 
 if __name__ == '__main__':
     # subject ID dialog
-    sinfo = {'ID': '', 'Gender': ['Female', 'Male'], 'Age': '', 'Mode': ['Exp', 'Test']}
+    sinfo = {'ID': '', 'Gender': ['Female', 'Male'], 'Age': '', 'Mode': ['Test', 'Exp']}
     show_form_dialog(sinfo, validation, order=['ID', 'Gender', 'Age', 'Mode'])
     sid = int(sinfo['ID'])
     img_prefix = sinfo['Gender'][0]
@@ -118,10 +122,12 @@ if __name__ == '__main__':
     dataLogger.write_data({
         k: str(sinfo[k]) for k in sinfo.keys()
     })
-    # create window
+    # setup window and presenter
+    io = iohub.launchHubServer(psychopy_monitor_name='default')
+    keyboard = io.devices.keyboard
     presenter = Presenter(fullscreen=(sinfo['Mode'] == 'Exp'))
-    presenter.LIKERT_SCALE_OPTION_INTERVAL = 0.7
     dataLogger.write_data(presenter.expInfo)
+    presenter.LIKERT_SCALE_OPTION_INTERVAL = 0.7
     # load images
     images = presenter.load_all_images(IMG_FOLDER, '.jpg', img_prefix)
     highlight = visual.ImageStim(presenter.window, image=IMG_FOLDER + 'highlight.png')
@@ -134,9 +140,6 @@ if __name__ == '__main__':
     # experiment starts
     presenter.show_instructions(INSTR_1, next_key=NEXT_PAGE_KEY)
     training_accuracy = []  # accuracy in each block
-    # launch iohub to collect keyboard activity
-    io = launchHubServer()
-    keyboard = io.devices.keyboard
     for block in range(NUM_BLOCKS):
         show_one_block(block)
     # additional blocks
