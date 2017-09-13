@@ -67,7 +67,6 @@ def show_one_trial(images, indexes, score, feedback, rating, reinforce_instr):
     if rating:
         certainty = presenter.likert_scale(LIKERT_SCALE_QUESTION, num_options=3, option_labels=LIKERT_SCALE_LABELS)
         data['certainty'] = certainty
-    print data
     return data
 
 
@@ -142,7 +141,7 @@ def choice_instructions():
     while len(correct) < 3 or any((not cor) for cor in correct[-3:]):
         data = show_one_trial(prac_imgs, (0, 1), 1, feedback=True, rating=False, reinforce_instr=INSTR_REINFORCE_PRAC)
         correct.append(data['correct'])
-        data['practice'] = True
+        data['block'] = 'practice'
         dataLogger.write_data(data)
 
 
