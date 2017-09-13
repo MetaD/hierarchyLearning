@@ -6,7 +6,7 @@ from psychopy_util import *
 from config import *
 
 
-def press_select(img_indexes):
+def press_select(images, img_indexes):
     # choose
     choose = visual.TextStim(presenter.window, INSTR_PRESS)
     presenter.draw_stimuli_for_duration(choose)
@@ -33,7 +33,7 @@ def press_select(img_indexes):
                 time.sleep(float(IMG_OPTION_TIME) / NUM_REFRESHS_PER_IMG)
 
 
-def show_one_trial(indexes, score, feedback, rating):
+def show_one_trial(images, indexes, score, feedback, rating):
     # randomize order
     indexes = list(indexes)
     random.shuffle(indexes)
@@ -43,7 +43,7 @@ def show_one_trial(indexes, score, feedback, rating):
     presenter.draw_stimuli_for_duration(images[i], FIRST_IMG_TIME)
     presenter.show_blank_screen(IMG_INTERVAL)
     presenter.draw_stimuli_for_duration(images[j], SECOND_IMG_TIME)
-    data = press_select(img_indexes=(i, j))
+    data = press_select(images, img_indexes=(i, j))
     # feedback
     selected_stim = images[data['response']]
     correct = data['response'] <= i and data['response'] <= j
@@ -78,7 +78,7 @@ def show_one_block(block_i):
     for t in range(NUM_CYCLES_PER_BLOCK_TRAIN):
         random.shuffle(TRAIN_PAIRS)
         for pair in TRAIN_PAIRS:
-            data = show_one_trial(pair, score=TRAIN_POINTS, feedback=True, rating=False)
+            data = show_one_trial(images, pair, score=TRAIN_POINTS, feedback=True, rating=False)
             data['block'] = str(block_i) + '_train_' + str(t)
             dataLogger.write_data(data)
             points += (1 if data['correct'] else -1) * TRAIN_POINTS
@@ -89,12 +89,54 @@ def show_one_block(block_i):
     for t in range(NUM_CYCLES_PER_BLOCK_TEST):
         random.shuffle(TEST_PAIRS)
         for pair in TEST_PAIRS:
-            data = show_one_trial(pair, score=TEST_POINTS, feedback=True, rating=True)
+            data = show_one_trial(images, pair, score=TEST_POINTS, feedback=True, rating=True)
             data['block'] = str(block_i) + '_test'
             dataLogger.write_data(data)
             points += (1 if data['correct'] else -1) * TEST_POINTS
     presenter.show_instructions('Your score is ' + str(points) + ' in this block.', next_key=NEXT_PAGE_KEY)
     dataLogger.write_data({'block_earnings': points})
+
+
+def sequential_imgs(instructions):
+    # same as press_select() but with no key presses/releases, returning on the next page key instead.
+    while True:
+        for i in (0, 1):
+            for t in range(NUM_REFRESHS_PER_IMG):
+                fraction = float(1 + t) / NUM_REFRESHS_PER_IMG
+                radius = fraction * (CIRCLE_RADIUS - IMG_HALF_SIDE) + IMG_HALF_SIDE
+                circle = visual.Circle(presenter.window, units='pix', lineWidth=0, fillColor='#808080',
+                                       edges=CIRCLE_EDGES, radius=radius, opacity=fraction)
+                presenter.draw_stimuli_for_duration([circle_bg, circle, images[i]] + instructions)
+                keys = keyboard.getKeys(keys=[NEXT_PAGE_KEY])
+                if len(keys) > 0:
+                    return
+                time.sleep(float(IMG_OPTION_TIME) / NUM_REFRESHS_PER_IMG)
+
+
+def choice_instructions():
+    # load practice images
+    prac_imgs = presenter.load_all_images(IMG_FOLDER, '.png', 'P' + img_prefix)
+    random.shuffle(prac_imgs)
+    # 1 a pair of images
+    fixation = visual.TextStim(presenter.window, '+')
+    instr = visual.TextStim(presenter.window, INSTR_2[0], pos=(0, 0.8), wrapWidth=1.5)
+    presenter.draw_stimuli_for_duration(instr, duration=1)
+    presenter.draw_stimuli_for_duration([instr, fixation], FIXATION_TIME)
+    presenter.draw_stimuli_for_duration([instr, prac_imgs[0]], FIRST_IMG_TIME)
+    presenter.draw_stimuli_for_duration(instr, IMG_INTERVAL)
+    presenter.draw_stimuli_for_duration([instr, prac_imgs[1]], SECOND_IMG_TIME)
+    # 2 key instruction
+    instr = visual.TextStim(presenter.window, INSTR_2[1], pos=(0, 0.8), wrapWidth=1.5)
+    presenter.show_instructions(INSTR_PRESS, other_stim=[instr])
+    # 3 selection
+    instr = visual.TextStim(presenter.window, INSTR_2[2], pos=(0, 0.8), wrapWidth=1.7)
+    next_page = visual.TextStim(presenter.window,
+                                'Press {} to continue'.format(NEXT_PAGE_KEY.upper()),
+                                pos=(0, -0.8))
+    sequential_imgs([instr, next_page])
+    # 4 starting practice
+    presenter.show_instructions(INSTR_2[3])
+    # 5 practice
 
 
 def validation(items):
@@ -144,7 +186,11 @@ if __name__ == '__main__':
                               edges=CIRCLE_EDGES)
 
     # experiment starts
+    # instructions & practice
     presenter.show_instructions(INSTR_1, next_key=NEXT_PAGE_KEY)
+    choice_instructions()
+    presenter.show_instructions(INSTR_3, next_key=NEXT_PAGE_KEY)
+    # tasks
     training_accuracy = []  # accuracy in each block
     for block in range(NUM_BLOCKS):
         show_one_block(block)
@@ -162,5 +208,5 @@ if __name__ == '__main__':
         show_one_block(NUM_BLOCKS + num_additional_blocks)
         num_additional_blocks += 1
     # end
-    presenter.show_instructions(INSTR_2, next_key=NEXT_PAGE_KEY)
+    presenter.show_instructions(INSTR_4, next_key=NEXT_PAGE_KEY)
     print 'training:', training_accuracy
