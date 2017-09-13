@@ -33,7 +33,7 @@ def press_select(images, img_indexes):
                 time.sleep(float(IMG_OPTION_TIME) / NUM_REFRESHS_PER_IMG)
 
 
-def show_one_trial(images, indexes, score, feedback, rating):
+def show_one_trial(images, indexes, score, feedback, rating, reinforce_instr):
     # randomize order
     indexes = list(indexes)
     random.shuffle(indexes)
@@ -49,16 +49,17 @@ def show_one_trial(images, indexes, score, feedback, rating):
     correct = data['response'] <= i and data['response'] <= j
     data['correct'] = correct
     if feedback:
-        feedback_stim = visual.TextStim(presenter.window, text=FEEDBACK_RIGHT.format(score), color=FEEDBACK_GREEN) if correct else \
+        feedback_stim = visual.TextStim(presenter.window, text=FEEDBACK_RIGHT.format(score), color=FEEDBACK_GREEN) \
+                        if correct else \
                         visual.TextStim(presenter.window, text=FEEDBACK_WRONG.format(score), color=FEEDBACK_RED)
         feedback_stim.pos = FEEDBACK_POSITION
         feedback_stim.height = 0.13
         presenter.draw_stimuli_for_duration([selected_stim, highlight, feedback_stim], FEEDBACK_TIME)
         # reinforcement
-        words = ['FUL', 'LESS'] if i < j else ['LESS', 'FUL']
-        presenter.show_instructions(INSTR_REINFORCE + words[0], position=TOP_INSTR_POSITION,
+        words = [reinforce_instr[1], reinforce_instr[2]] if i < j else [reinforce_instr[2], reinforce_instr[1]]
+        presenter.show_instructions(reinforce_instr[0] + words[0], position=TOP_INSTR_POSITION,
                                     other_stim=[images[i]], next_key=NEXT_PAGE_KEY)
-        presenter.show_instructions(INSTR_REINFORCE + words[1], position=TOP_INSTR_POSITION,
+        presenter.show_instructions(reinforce_instr[0] + words[1], position=TOP_INSTR_POSITION,
                                     other_stim=[images[j]], next_key=NEXT_PAGE_KEY)
     else:
         presenter.draw_stimuli_for_duration([selected_stim, highlight], FEEDBACK_TIME)
@@ -78,7 +79,8 @@ def show_one_block(block_i):
     for t in range(NUM_CYCLES_PER_BLOCK_TRAIN):
         random.shuffle(TRAIN_PAIRS)
         for pair in TRAIN_PAIRS:
-            data = show_one_trial(images, pair, score=TRAIN_POINTS, feedback=True, rating=False)
+            data = show_one_trial(images, pair, score=TRAIN_POINTS, feedback=True, rating=False,
+                                  reinforce_instr=INSTR_REINFORCE)
             data['block'] = str(block_i) + '_train_' + str(t)
             dataLogger.write_data(data)
             points += (1 if data['correct'] else -1) * TRAIN_POINTS
@@ -89,7 +91,8 @@ def show_one_block(block_i):
     for t in range(NUM_CYCLES_PER_BLOCK_TEST):
         random.shuffle(TEST_PAIRS)
         for pair in TEST_PAIRS:
-            data = show_one_trial(images, pair, score=TEST_POINTS, feedback=True, rating=True)
+            data = show_one_trial(images, pair, score=TEST_POINTS, feedback=True, rating=True,
+                                  reinforce_instr=INSTR_REINFORCE)
             data['block'] = str(block_i) + '_test'
             dataLogger.write_data(data)
             points += (1 if data['correct'] else -1) * TEST_POINTS
@@ -97,7 +100,7 @@ def show_one_block(block_i):
     dataLogger.write_data({'block_earnings': points})
 
 
-def sequential_imgs(instructions):
+def sequential_imgs(instructions, prac_imgs):
     # same as press_select() but with no key presses/releases, returning on the next page key instead.
     while True:
         for i in (0, 1):
@@ -106,8 +109,8 @@ def sequential_imgs(instructions):
                 radius = fraction * (CIRCLE_RADIUS - IMG_HALF_SIDE) + IMG_HALF_SIDE
                 circle = visual.Circle(presenter.window, units='pix', lineWidth=0, fillColor='#808080',
                                        edges=CIRCLE_EDGES, radius=radius, opacity=fraction)
-                presenter.draw_stimuli_for_duration([circle_bg, circle, images[i]] + instructions)
-                keys = keyboard.getKeys(keys=[NEXT_PAGE_KEY])
+                presenter.draw_stimuli_for_duration([circle_bg, circle, prac_imgs[i]] + instructions)
+                keys = keyboard.getKeys(chars=[RESPONSE_CHAR])
                 if len(keys) > 0:
                     return
                 time.sleep(float(IMG_OPTION_TIME) / NUM_REFRESHS_PER_IMG)
@@ -116,27 +119,31 @@ def sequential_imgs(instructions):
 def choice_instructions():
     # load practice images
     prac_imgs = presenter.load_all_images(IMG_FOLDER, '.png', 'P' + img_prefix)
-    random.shuffle(prac_imgs)
     # 1 a pair of images
     fixation = visual.TextStim(presenter.window, '+')
     instr = visual.TextStim(presenter.window, INSTR_2[0], pos=(0, 0.8), wrapWidth=1.5)
-    presenter.draw_stimuli_for_duration(instr, duration=1)
+    presenter.draw_stimuli_for_duration(instr, duration=2)
     presenter.draw_stimuli_for_duration([instr, fixation], FIXATION_TIME)
     presenter.draw_stimuli_for_duration([instr, prac_imgs[0]], FIRST_IMG_TIME)
     presenter.draw_stimuli_for_duration(instr, IMG_INTERVAL)
     presenter.draw_stimuli_for_duration([instr, prac_imgs[1]], SECOND_IMG_TIME)
+    presenter.show_instructions(INSTR_2[0], position=(0, 0.8), next_key=NEXT_PAGE_KEY)
     # 2 key instruction
     instr = visual.TextStim(presenter.window, INSTR_2[1], pos=(0, 0.8), wrapWidth=1.5)
-    presenter.show_instructions(INSTR_PRESS, other_stim=[instr])
+    presenter.show_instructions(INSTR_PRESS, other_stim=[instr], next_key=NEXT_PAGE_KEY)
     # 3 selection
-    instr = visual.TextStim(presenter.window, INSTR_2[2], pos=(0, 0.8), wrapWidth=1.7)
-    next_page = visual.TextStim(presenter.window,
-                                'Press {} to continue'.format(NEXT_PAGE_KEY.upper()),
-                                pos=(0, -0.8))
-    sequential_imgs([instr, next_page])
+    instr = visual.TextStim(presenter.window, INSTR_2[2], pos=(0, 0.8), wrapWidth=1.8, height=0.08)
+    next_page = visual.TextStim(presenter.window, 'Press {} to continue'.format(RESPONSE_KEY), pos=(0, -0.8))
+    sequential_imgs([instr, next_page], prac_imgs)
     # 4 starting practice
-    presenter.show_instructions(INSTR_2[3])
+    presenter.show_instructions(INSTR_2[3], next_key=NEXT_PAGE_KEY)
     # 5 practice
+    correct = []
+    while len(correct) < 3 or any((not cor) for cor in correct[-3:]):
+        data = show_one_trial(prac_imgs, (0, 1), 1, feedback=True, rating=False, reinforce_instr=INSTR_REINFORCE_PRAC)
+        correct.append(data['correct'])
+        data['practice'] = True
+        dataLogger.write_data(data)
 
 
 def validation(items):
@@ -156,7 +163,7 @@ def validation(items):
 
 if __name__ == '__main__':
     # subject ID dialog
-    sinfo = {'ID': '', 'Gender': ['Female', 'Male'], 'Age': '', 'Mode': ['Test', 'Exp']}
+    sinfo = {'ID': '', 'Gender': ['Female', 'Male'], 'Age': '', 'Mode': ['Exp', 'Test']}
     show_form_dialog(sinfo, validation, order=['ID', 'Gender', 'Age', 'Mode'])
     sid = int(sinfo['ID'])
     img_prefix = sinfo['Gender'][0]

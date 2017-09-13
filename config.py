@@ -35,18 +35,19 @@ INSTR_1 = ['We\'re interested in individual differences in how people learn abou
            'You\'re going to see pictures we\'ve taken of 9 different individuals who are all members of an '
            'organization.',
            'There are 2 parts to this experiment. In this first part, you will need to learn which individuals are '
-           'more powerful in the organization.'
+           'more powerful in the organization. '
            'In the second part, you will use the knowledge you acquired during this part to make judgments '
            'about individuals.']
 INSTR_2 = ['To learn about the organization, you will see pairs of people displayed like this:',
            'Your job is to choose the person who is more powerful in the organization. You will see this screen '
            'before making the choice:',
-           'Then you can make your choice by PRESSING and HOLDING ' + RESPONSE_KEY.upper() + '.'
+           'Then you can make a choice by PRESSING and HOLDING ' + RESPONSE_KEY.upper() + '. '
            'Once you press the key, the two people will be displayed again, in the same order that they were '
            'presented before. When you see the person you\'d like to choose, RELEASE the key to select that person.\n'
-           'The size of the circle indicates how long the current person will remain on the screen, like this:',
-           'In the next few practice trials, try to select the person who WEARS GLASSES. Just press and hold ' +
-           RESPONSE_KEY + ', and release it when you see the person you need to select.']
+           'The size of the circle indicates how long the current person will remain on the screen, '
+           'which looks like this:',
+           'Now you can try this in a few practice trials. Select the person who WEARS GLASSES in these practice trials'
+           ' -- just press and hold ' + RESPONSE_KEY + ', and release it when you see the person you need to choose.']
 INSTR_3 = 'You\'ve completed the practice trials! Now we\'ll start the task. Remember, your job is to choose the ' \
           'person who is more powerful in the organization.'
 INSTR_4 = 'Thank you for participating!'
@@ -54,14 +55,12 @@ INSTR_4 = 'Thank you for participating!'
 INSTR_TRAIN = ['Get ready for Training trials.',
                'In Training Trials, you\'ll see pairs of people who are most similar in terms of how much power '
                'they have in the organization.\n\n'
-               # TODO keys
                'If you respond correctly, you\'ll win ' + str(TRAIN_POINTS) + ' points. '
                'Otherwise, you\'ll lose ' + str(TRAIN_POINTS) + ' points.']
 INSTR_TEST = ['Get ready for Test trials',
               'In Test Trials, you\'ll be presented with pairs of people who are more different from each other '
               '(compared to the Training Trials) in terms of how much power they have - here you\'ll have to use '
               'your judgement to choose the correct one.\n\n'
-              # TODO keys
               'If you respond correctly, you\'ll win ' + str(TEST_POINTS) + ' points. '
               'Otherwise, you\'ll lose ' + str(TEST_POINTS) + ' points.',
               'You will also be asked to rate your confidence in your choices during test trials on a scale of 1-3:\n\n'
@@ -74,7 +73,8 @@ INSTR_PRESS = 'Short press or long press ' + RESPONSE_KEY + ' to choose one of t
 FEEDBACK_RIGHT = '+ {} points'
 FEEDBACK_WRONG = '- {} points'
 
-INSTR_REINFORCE = 'In this pair, the person below is relatively POWER'
+INSTR_REINFORCE = ['In this pair, the person below is relatively POWER', 'FUL', 'LESS']
+INSTR_REINFORCE_PRAC = ['In this pair, the person below is ', 'wearing glasses', 'not wearing glasses']
 
 LIKERT_SCALE_QUESTION = 'Please rate your confidence'
 LIKERT_SCALE_LABELS = ('Guessing entirely', 'Not sure but have some idea', '90%-100% certain')
