@@ -100,6 +100,7 @@ def show_one_block(block_i):
 
 
 def sequential_imgs(instructions, prac_imgs):
+    io.clearEvents('all')
     # same as press_select() but with no key presses/releases, returning on the next page key instead.
     while True:
         for i in (0, 1):
@@ -138,11 +139,14 @@ def choice_instructions():
     presenter.show_instructions(INSTR_2[3], next_key=NEXT_PAGE_KEY)
     # 5 practice
     correct = []
+    i = 0
     while len(correct) < 3 or any((not cor) for cor in correct[-3:]):
-        data = show_one_trial(prac_imgs, (0, 1), 1, feedback=True, rating=False, reinforce_instr=INSTR_REINFORCE_PRAC)
+        data = show_one_trial(prac_imgs, (i, i + 1), 1, feedback=True, rating=False,
+                              reinforce_instr=INSTR_REINFORCE_PRAC)
         correct.append(data['correct'])
         data['block'] = 'practice'
         dataLogger.write_data(data)
+        i = 2 - i  # toggle pair
 
 
 def validation(items):
