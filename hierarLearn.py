@@ -100,8 +100,8 @@ def show_one_block(block_i):
 
 
 def sequential_imgs(instructions, prac_imgs):
+    # same as press_select() but with no key presses/releases, returning on the next page key (space) instead.
     io.clearEvents('all')
-    # same as press_select() but with no key presses/releases, returning on the next page key instead.
     while True:
         for i in (0, 1):
             for t in range(NUM_REFRESHS_PER_IMG):

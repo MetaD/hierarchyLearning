@@ -38,7 +38,8 @@ INSTR_1 = ['We\'re interested in individual differences in how people learn abou
            'more powerful in the organization. '
            'In the second part, you will use the knowledge you acquired during this part to make judgments '
            'about individuals.']
-INSTR_2 = ['To learn about the organization, you will see pairs of people displayed one after another (sequentially) like this:',
+INSTR_2 = ['To learn about the organization, you will see pairs of people displayed one after another (sequentially) '
+           'like this:',
            'After you see the 2 faces presented sequentially, you will see the following instructions '
            'before selecting your choice:',
            'Then you can make a choice by PRESSING and HOLDING ' + RESPONSE_KEY.upper() + '. '
@@ -68,8 +69,8 @@ INSTR_TEST = ['Get ready for Test trials',
               '2 = You have some idea but are not sure\n' +
               '3 = You\'re more than 90% certain\n\n' +
               'Your confidence ratings will not affect your final score, but try to answer as accurately as possible.']
-#INSTR_PRESS = 'Short press or long press ' + RESPONSE_KEY + ' to choose one of the two people'
-INSTR_PRESS = 'Hold down ' + RESPONSE_KEY.upper() + ' to cycle through the 2 response options, and release it when you see the person you want to choose.'
+INSTR_PRESS = 'Hold down ' + RESPONSE_KEY.upper() + ' to cycle through the 2 response options, ' \
+              'and release it when you see the person you want to choose.'
 
 FEEDBACK_RIGHT = '+ {} points'
 FEEDBACK_WRONG = '- {} points'
