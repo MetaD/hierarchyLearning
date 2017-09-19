@@ -132,7 +132,7 @@ def choice_instructions():
     instr = visual.TextStim(presenter.window, INSTR_2[1], pos=(0, 0.8), wrapWidth=1.5)
     presenter.show_instructions(INSTR_PRESS, other_stim=[instr], next_key=NEXT_PAGE_KEY)
     # 3 selection
-    instr = visual.TextStim(presenter.window, INSTR_2[2], pos=(0, 0.8), wrapWidth=1.8, height=0.08)
+    instr = visual.TextStim(presenter.window, INSTR_2[2], pos=(0, 0.8), wrapWidth=1.9, height=0.07)
     next_page = visual.TextStim(presenter.window, 'Press {} to continue'.format(RESPONSE_KEY), pos=(0, -0.8))
     sequential_imgs([instr, next_page], prac_imgs)
     # 4 starting practice
