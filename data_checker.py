@@ -16,6 +16,8 @@ for datafile in os.listdir(DATA_FOLDER):
             block_type = trial['block']
             data_list = training if 'train' in block_type else test
             correct = int(trial['correct'])
+            if block_type == 'practice':
+                continue
             try:
                 data_list[int(block_type.split('_')[0]) + 2] += correct
             except IndexError:
