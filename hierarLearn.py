@@ -225,3 +225,6 @@ if __name__ == '__main__':
     print 'training:', train_accuracy
     print 'test:', test_accuracy
     print 'accuracy', not low_accuracy()
+    dataLogger.write_data({'training': train_accuracy,
+                           'test': test_accuracy,
+                           'accuracy': not low_accuracy()})
