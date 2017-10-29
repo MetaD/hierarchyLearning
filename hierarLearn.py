@@ -48,6 +48,11 @@ def show_one_trial(images, indexes, score, feedback, rating, reinforce_instr):
     selected_stim = images[data['response']]
     correct = data['response'] <= i and data['response'] <= j
     data['correct'] = correct
+    # rating
+    if rating:
+        certainty = presenter.likert_scale(LIKERT_SCALE_QUESTION, num_options=3, option_labels=LIKERT_SCALE_LABELS)
+        data['certainty'] = certainty
+    # feedback
     if feedback:
         feedback_stim = visual.TextStim(presenter.window, text=FEEDBACK_RIGHT.format(score), color=FEEDBACK_GREEN) \
                         if correct else \
@@ -63,10 +68,6 @@ def show_one_trial(images, indexes, score, feedback, rating, reinforce_instr):
                                     other_stim=[images[j]], next_key=NEXT_PAGE_KEY)
     else:
         presenter.draw_stimuli_for_duration([selected_stim, highlight], FEEDBACK_TIME)
-    # rating
-    if rating:
-        certainty = presenter.likert_scale(LIKERT_SCALE_QUESTION, num_options=3, option_labels=LIKERT_SCALE_LABELS)
-        data['certainty'] = certainty
     return data
 
 
@@ -74,7 +75,7 @@ def show_one_block(block_i):
     points = 0
     # train
     presenter.show_instructions(INSTR_TRAIN, next_key=NEXT_PAGE_KEY)
-    num_correct = 0
+    num_correct_train, num_correct_test = 0, 0
     for t in range(NUM_CYCLES_PER_BLOCK_TRAIN):
         random.shuffle(TRAIN_PAIRS)
         for pair in TRAIN_PAIRS:
@@ -83,8 +84,8 @@ def show_one_block(block_i):
             data['block'] = str(block_i) + '_train_' + str(t)
             dataLogger.write_data(data)
             points += (1 if data['correct'] else -1) * TRAIN_POINTS
-            num_correct += 1 if data['correct'] else 0
-    training_accuracy.append(float(num_correct) / (NUM_CYCLES_PER_BLOCK_TRAIN * len(TRAIN_PAIRS)))
+            num_correct_train += 1 if data['correct'] else 0
+    train_accuracy.append(num_correct_train)
     # test
     presenter.show_instructions(INSTR_TEST, next_key=NEXT_PAGE_KEY)
     for t in range(NUM_CYCLES_PER_BLOCK_TEST):
@@ -95,6 +96,8 @@ def show_one_block(block_i):
             data['block'] = str(block_i) + '_test'
             dataLogger.write_data(data)
             points += (1 if data['correct'] else -1) * TEST_POINTS
+            num_correct_test += 1 if data['correct'] else 0
+    test_accuracy.append(num_correct_test)
     presenter.show_instructions('Your score is ' + str(points) + ' in this block.', next_key=NEXT_PAGE_KEY)
     dataLogger.write_data({'block_earnings': points})
 
@@ -121,7 +124,7 @@ def choice_instructions():
     prac_imgs = presenter.load_all_images(IMG_FOLDER, '.png', 'P' + img_prefix)
     # 1 a pair of images
     fixation = visual.TextStim(presenter.window, '+')
-    instr = visual.TextStim(presenter.window, INSTR_2[0], pos=(0, 0.8), wrapWidth=1.5)
+    instr = visual.TextStim(presenter.window, INSTR_2[0], pos=(0, 0.8), wrapWidth=1.6)
     presenter.draw_stimuli_for_duration(instr, duration=2)
     presenter.draw_stimuli_for_duration([instr, fixation], FIXATION_TIME)
     presenter.draw_stimuli_for_duration([instr, prac_imgs[0]], FIRST_IMG_TIME)
@@ -129,7 +132,7 @@ def choice_instructions():
     presenter.draw_stimuli_for_duration([instr, prac_imgs[1]], SECOND_IMG_TIME)
     presenter.show_instructions(INSTR_2[0], position=(0, 0.8), next_key=NEXT_PAGE_KEY)
     # 2 key instruction
-    instr = visual.TextStim(presenter.window, INSTR_2[1], pos=(0, 0.8), wrapWidth=1.5)
+    instr = visual.TextStim(presenter.window, INSTR_2[1], pos=(0, 0.8), wrapWidth=1.6)
     presenter.show_instructions(INSTR_PRESS, other_stim=[instr], next_key=NEXT_PAGE_KEY)
     # 3 selection
     instr = visual.TextStim(presenter.window, INSTR_2[2], pos=(0, 0.8), wrapWidth=1.9, height=0.07)
@@ -201,16 +204,16 @@ if __name__ == '__main__':
     choice_instructions()
     presenter.show_instructions(INSTR_3, next_key=NEXT_PAGE_KEY)
     # tasks
-    training_accuracy = []  # accuracy in each block
+    train_accuracy, test_accuracy = [], []  # accuracy in each block
     for block in range(NUM_BLOCKS):
         show_one_block(block)
     # additional blocks
     num_additional_blocks = 0
 
     def low_accuracy():
-        if training_accuracy[-1] < 0.85 and training_accuracy[-2] < 0.85:  # < 14/16
+        if train_accuracy[-1] + train_accuracy[-2] + train_accuracy[-3] < 44:  # < 44/3*16
             return True
-        if training_accuracy[-1] < 0.8 or training_accuracy[-2] < 0.8:  # < 13/16
+        if test_accuracy[-1] + test_accuracy[-2] + test_accuracy[-3] < 22:  # < 22/3*8
             return True
         return False
 
@@ -219,4 +222,6 @@ if __name__ == '__main__':
         num_additional_blocks += 1
     # end
     presenter.show_instructions(INSTR_4, next_key=NEXT_PAGE_KEY)
-    print 'training:', training_accuracy
+    print 'training:', train_accuracy
+    print 'test:', test_accuracy
+    print 'accuracy', not low_accuracy()
