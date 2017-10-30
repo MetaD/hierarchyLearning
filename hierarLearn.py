@@ -211,7 +211,7 @@ if __name__ == '__main__':
     num_additional_blocks = 0
 
     def low_accuracy():
-        if train_accuracy[-1] + train_accuracy[-2] + train_accuracy[-3] < 44:  # < 44/3*16
+        if train_accuracy[-1] + train_accuracy[-2] + train_accuracy[-3] < 45:  # < 45/3*16
             return True
         if test_accuracy[-1] + test_accuracy[-2] + test_accuracy[-3] < 22:  # < 22/3*8
             return True
