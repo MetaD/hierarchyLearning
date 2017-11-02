@@ -175,7 +175,7 @@ if __name__ == '__main__':
     img_prefix = sinfo['Gender'][0]
 
     # create data file
-    dataLogger = DataHandler(DATA_FOLDER, str(sid) + '.txt')
+    dataLogger = DataHandler(DATA_FOLDER, str(sid) + '_pre_scan.txt')
     # save info from the dialog box
     dataLogger.write_data({
         k: str(sinfo[k]) for k in sinfo.keys()
@@ -199,6 +199,7 @@ if __name__ == '__main__':
                               edges=CIRCLE_EDGES)
 
     # experiment starts
+    start_time = time.time()
     # instructions & practice
     presenter.show_instructions(INSTR_1, next_key=NEXT_PAGE_KEY)
     choice_instructions()
@@ -208,16 +209,15 @@ if __name__ == '__main__':
     for block in range(NUM_BLOCKS):
         show_one_block(block)
     # additional blocks
-    num_additional_blocks = 0
-
     def low_accuracy():
-        if train_accuracy[-1] + train_accuracy[-2] + train_accuracy[-3] < 45:  # < 45/3*16
+        if train_accuracy[-1] + train_accuracy[-2] + train_accuracy[-3] < 48:
             return True
-        if test_accuracy[-1] + test_accuracy[-2] + test_accuracy[-3] < 22:  # < 22/3*8
+        if test_accuracy[-1] + test_accuracy[-2] + test_accuracy[-3] < 24:
             return True
         return False
 
-    while low_accuracy() and num_additional_blocks < MAX_ADDITIONAL_BLOCKS:
+    num_additional_blocks = 0
+    while low_accuracy() and time.time() - start_time < MAX_TIME:
         show_one_block(NUM_BLOCKS + num_additional_blocks)
         num_additional_blocks += 1
     # end

@@ -1,12 +1,12 @@
 # Numbers
-NUM_BLOCKS = 12
+NUM_BLOCKS = 4
 NUM_CYCLES_PER_BLOCK_TRAIN = 2
 NUM_CYCLES_PER_BLOCK_TEST = 1
 TRAIN_PAIRS = [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 8)]
 TEST_PAIRS = [(1, 3), (1, 4), (2, 4), (2, 5), (3, 5), (3, 6), (4, 6), (4, 7)]
 TRAIN_POINTS = 10
 TEST_POINTS = 100
-MAX_ADDITIONAL_BLOCKS = 0
+MAX_TIME = 30 * 60  # in seconds
 # Paths
 IMG_FOLDER = 'img/'
 DATA_FOLDER = 'data/'
