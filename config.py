@@ -1,5 +1,5 @@
 # Numbers
-NUM_BLOCKS = 12
+NUM_BLOCKS = 14
 NUM_CYCLES_PER_BLOCK_TRAIN = 2
 NUM_CYCLES_PER_BLOCK_TEST = 1
 TRAIN_PAIRS = [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 8)]
