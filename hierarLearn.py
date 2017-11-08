@@ -143,7 +143,7 @@ def choice_instructions():
     # 5 practice
     correct = []
     i = 0
-    while len(correct) < 1 or not correct[-1]:
+    while len(correct) < 3 or any((not cor) for cor in correct[-3:]):
         data = show_one_trial(prac_imgs, (i, i + 1), 1, feedback=True, rating=False,
                               reinforce_instr=INSTR_REINFORCE_PRAC)
         correct.append(data['correct'])
