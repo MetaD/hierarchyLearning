@@ -4,10 +4,13 @@ from data_utilities import *
 
 DATA_FOLDER = 'data/'
 CSV_FILENAME = 'learning_data.csv'
+START_WITH_SUBJECT = 130
 
 all_data = []
 for datafile in os.listdir(DATA_FOLDER):
     if not datafile.endswith('.txt') or not datafile[0].isdigit():
+        continue
+    if int(datafile[:3]) < START_WITH_SUBJECT:
         continue
     sdata = load_json(DATA_FOLDER + datafile, multiple_obj=True)
     training, test = [datafile[:-4], 'train (16)'], [datafile[:-4], 'test (8)']
