@@ -205,21 +205,38 @@ if __name__ == '__main__':
     presenter.show_instructions(INSTR_3, next_key=NEXT_PAGE_KEY)
     # tasks
     train_accuracy, test_accuracy = [], []  # accuracy in each block
-    for block in range(NUM_BLOCKS):
+    for block in range(NUM_BLOCKS - NUM_BLOCKS_AFTER_ACC_CHECK):
         show_one_block(block)
-    # additional blocks
+    # accuracy check and additional blocks
     num_additional_blocks = 0
 
-    def low_accuracy():
-        if train_accuracy[-1] + train_accuracy[-2] + train_accuracy[-3] < 45:  # < 45/3*16
+    def super_low_accuracy():
+        if sum(train_accuracy[-3:]) < 37:  # < 37/3*16
             return True
-        if test_accuracy[-1] + test_accuracy[-2] + test_accuracy[-3] < 22:  # < 22/3*8
+        if sum(test_accuracy[-3:]) < 18:  # < 18/3*8
             return True
         return False
+
+    def low_accuracy():
+        if sum(train_accuracy[-3:]) < 45:  # < 45/3*16
+            return True
+        if sum(test_accuracy[-3:]) < 22:  # < 22/3*8
+            return True
+        return False
+
+    for block in range(NUM_BLOCKS - NUM_BLOCKS_AFTER_ACC_CHECK, NUM_BLOCKS):
+        if super_low_accuracy():
+            presenter.show_instructions(INSTR_4, next_key=NEXT_PAGE_KEY)
+            print 'training:', train_accuracy
+            print 'test:', test_accuracy
+            print 'Task ended due to accuracy'
+            exit(0)
+        show_one_block(block)
 
     while low_accuracy() and num_additional_blocks < MAX_ADDITIONAL_BLOCKS:
         show_one_block(NUM_BLOCKS + num_additional_blocks)
         num_additional_blocks += 1
+
     # end
     presenter.show_instructions(INSTR_4, next_key=NEXT_PAGE_KEY)
     print 'training:', train_accuracy

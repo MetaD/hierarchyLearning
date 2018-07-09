@@ -1,5 +1,6 @@
 # Numbers
 NUM_BLOCKS = 12
+NUM_BLOCKS_AFTER_ACC_CHECK = 2
 NUM_CYCLES_PER_BLOCK_TRAIN = 2
 NUM_CYCLES_PER_BLOCK_TEST = 1
 TRAIN_PAIRS = [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 8)]
@@ -51,7 +52,7 @@ INSTR_2 = ['To learn about the organization, you will see pairs of people displa
            ' -- just press and hold ' + RESPONSE_KEY + ', and release it when you see the person you want to choose.']
 INSTR_3 = 'You\'ve completed the practice trials! Now we\'ll start the task. Remember, your job is to choose the ' \
           'person who is more powerful in the organization.'
-INSTR_4 = 'Thank you for participating!'
+INSTR_4 = 'Thank you for completing this task!'
 
 INSTR_TRAIN = ['Get ready for Training trials.',
                'In Training Trials, you\'ll see pairs of people who are most similar in terms of how much power '
