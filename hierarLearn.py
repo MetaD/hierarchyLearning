@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import time
+import sys
 from psychopy import iohub
 from psychopy_util import *
 from config import *
@@ -230,7 +231,7 @@ if __name__ == '__main__':
             print 'training:', train_accuracy
             print 'test:', test_accuracy
             print 'Task ended due to accuracy'
-            exit(0)
+            sys.exit(0)
         show_one_block(block)
 
     while low_accuracy() and num_additional_blocks < MAX_ADDITIONAL_BLOCKS:
