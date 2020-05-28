@@ -1,3 +1,5 @@
 # hierarchyLearning
 
-On Mac OS, go to System Preferences -> Security & Privacy -> Privacy tab -> Accessibility, and add PsychoPy 2 to the list.
+On Mac OS, go to System Preferences -> Security & Privacy -> Privacy tab -> Accessibility, and add PsychoPy to the list.
+
+Open `hierarLearn.py` with PsychoPy Coder, and click "Run".
