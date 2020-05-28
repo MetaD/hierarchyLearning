@@ -228,9 +228,9 @@ if __name__ == '__main__':
     for block in range(NUM_BLOCKS - NUM_BLOCKS_AFTER_ACC_CHECK, NUM_BLOCKS):
         if super_low_accuracy():
             presenter.show_instructions(INSTR_4, next_key=NEXT_PAGE_KEY)
-            print 'training:', train_accuracy
-            print 'test:', test_accuracy
-            print 'Task ended due to accuracy'
+            print('training:', train_accuracy)
+            print('test:', test_accuracy)
+            print('Task ended due to accuracy')
             sys.exit(0)
         show_one_block(block)
 
@@ -240,9 +240,9 @@ if __name__ == '__main__':
 
     # end
     presenter.show_instructions(INSTR_4, next_key=NEXT_PAGE_KEY)
-    print 'training:', train_accuracy
-    print 'test:', test_accuracy
-    print 'accuracy', not low_accuracy()
+    print('training:', train_accuracy)
+    print('test:', test_accuracy)
+    print('accuracy', not low_accuracy())
     dataLogger.write_data({'training': train_accuracy,
                            'test': test_accuracy,
                            'accuracy': not low_accuracy()})
